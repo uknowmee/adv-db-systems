@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Items", "Solution.Items", "{8945F560-39E0-4B7C-B7AD-DD60772C9533}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Adv.Db.Systems.sln = Adv.Db.Systems.sln
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}"
+	ProjectSection(SolutionItems) = preProject
+		data\popularity_iw.csv = data\popularity_iw.csv
+		data\taxonomy_iw.csv = data\taxonomy_iw.csv
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "compressed", "compressed", "{C2A8DDB2-1C7D-40A7-8FBB-CD72A0414645}"
+	ProjectSection(SolutionItems) = preProject
+		data\compressed\popularity_iw.csv.gz = data\compressed\popularity_iw.csv.gz
+		data\compressed\taxonomy_iw.csv.gz = data\compressed\taxonomy_iw.csv.gz
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{752568B2-C656-4DFA-B024-B68C7E6768E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{A5126845-C57A-4F44-806A-658DC42CB44B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.App", "src\App\Adv.Db.Systems.App\Adv.Db.Systems.App.csproj", "{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2A8DDB2-1C7D-40A7-8FBB-CD72A0414645} = {4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}
+		{A5126845-C57A-4F44-806A-658DC42CB44B} = {752568B2-C656-4DFA-B024-B68C7E6768E3}
+		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC} = {A5126845-C57A-4F44-806A-658DC42CB44B}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
