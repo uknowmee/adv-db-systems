@@ -1,5 +1,7 @@
 # Advanced Db Systems
 
+#### [Docs](docs/Readme.md)
+
 ## Project
 
 1. To run use `dotnet run --project .\src\App\Adv.Db.Systems.App\Adv.Db.Systems.App.csproj`, or just `dotnet run` in project dir. 

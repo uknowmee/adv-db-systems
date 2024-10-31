@@ -6,6 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Items", "Solution.
 		Adv.Db.Systems.sln = Adv.Db.Systems.sln
 		global.json = global.json
 		README.md = README.md
+		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}"
@@ -25,6 +26,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{A5126845-C57A-4F44-806A-658DC42CB44B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.App", "src\App\Adv.Db.Systems.App\Adv.Db.Systems.App.csproj", "{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E8128389-6940-4B24-9573-B18563DCB637}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Readme.md = docs\Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

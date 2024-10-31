@@ -1,0 +1,28 @@
+name:
+  adv-db-systems
+
+volumes:
+  memgraph_data:
+
+services:
+  memgraph:
+    image: memgraph/memgraph:latest
+    container_name: adv-db-systems.memgraph
+    pull_policy: always
+    ports:
+      - "7687:7687"
+      - "7444:7444"
+    environment:
+      MEMGRAPH_LOG_LEVEL: info
+
+  memgraph-lab:
+    image: memgraph/lab:latest
+    container_name: adv-db-systems.memgraph-lab
+    pull_policy: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - memgraph
+    environment:
+      QUICK_CONNECT_MG_HOST: memgraph
+      QUICK_CONNECT_MG_PORT: 7687
