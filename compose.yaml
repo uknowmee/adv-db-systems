@@ -6,7 +6,7 @@ volumes:
 
 services:
   memgraph:
-    image: memgraph/memgraph:latest
+    image: memgraph/memgraph-mage:latest
     container_name: adv-db-systems.memgraph
     pull_policy: always
     ports:
