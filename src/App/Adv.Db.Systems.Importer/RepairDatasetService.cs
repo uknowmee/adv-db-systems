@@ -6,7 +6,9 @@ public static class RepairDatasetService
     private const string PopularityFileDir = "popularity_iw.csv";
     private const string PopularityFixedFileDir = "popularity_fixed.csv";
     private const string Splitter = ",";
+    private const string TaxonomySplitter = "\",\"";
     private const string GoodEnding = "\"";
+    private const char Trim = '"';
 
     private record Tuple(int Rating, List<string> Matches);
 
@@ -45,10 +47,10 @@ public static class RepairDatasetService
 
         while (reader.ReadLine() is { } line)
         {
-            var firstComma = line.IndexOf("\",\"", StringComparison.Ordinal);
+            var firstComma = line.IndexOf(TaxonomySplitter, StringComparison.Ordinal);
             if (firstComma <= -1) continue;
-            uniqueValues.Add(line[..firstComma].Replace("\"", ""));
-            uniqueValues.Add(line[(firstComma + 3)..].Replace("\"", ""));
+            uniqueValues.Add(line[..firstComma].TrimOnce(Trim));
+            uniqueValues.Add(line[(firstComma + 3)..].TrimOnce(Trim));
         }
 
         return uniqueValues;
@@ -97,9 +99,9 @@ public static class RepairDatasetService
         var badPopularityRecords = new Dictionary<string, int>();
         foreach (var badLine in badLinesFromPopularity)
         {
-            var parts = badLine.Split(",");
-            var key = parts[0].Replace("\"", "");
-            var value = int.Parse(parts[1].Replace("\"", ""));
+            var parts = badLine.Split(Splitter);
+            var key = parts[0].TrimOnce(Trim);
+            var value = int.Parse(parts[1].TrimOnce(Trim));
             badPopularityRecords.Add(key, value);
         }
 
@@ -111,9 +113,9 @@ public static class RepairDatasetService
         var goodPopularityRecords = new Dictionary<string, int>();
         foreach (var badLine in goodLinesFromPopularity)
         {
-            var parts = badLine.Split(",");
-            var key = parts[0].Replace("\"", "");
-            var value = int.Parse(parts[1].Replace("\"", ""));
+            var parts = badLine.Split(Splitter);
+            var key = parts[0].TrimOnce(Trim);
+            var value = int.Parse(parts[1].TrimOnce(Trim));
             goodPopularityRecords.Add(key, value);
         }
 
@@ -144,7 +146,7 @@ public static class RepairDatasetService
         var prefixLookup = new Dictionary<string, List<string>>();
         foreach (var category in possiblyMisspelledCategories)
         {
-            var prefix = category.Split(',')[0];
+            var prefix = category.Split(Splitter)[0];
             if (!prefixLookup.TryGetValue(prefix, out var value))
             {
                 value = [];
@@ -192,5 +194,20 @@ public static class RepairDatasetService
         {
             await writer.WriteLineAsync($"\"{key}\",{value}");
         }
+    }
+
+    private static string TrimOnce(this string input, char trimChar)
+    {
+        if (input.StartsWith(trimChar))
+        {
+            input = input[1..];
+        }
+
+        if (input.EndsWith(trimChar))
+        {
+            input = input[..^1];
+        }
+
+        return input;
     }
 }
