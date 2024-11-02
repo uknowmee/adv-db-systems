@@ -2,9 +2,6 @@
 
 public static class RepairDatasetService
 {
-    private const string TaxonomyFileDir = "taxonomy_iw.csv";
-    private const string PopularityFileDir = "popularity_iw.csv";
-    private const string PopularityFixedFileDir = "popularity_fixed.csv";
     private const string Splitter = ",";
     private const string TaxonomySplitter = "\",\"";
     private const string GoodEnding = "\"";
@@ -16,8 +13,8 @@ public static class RepairDatasetService
     {
         await Console.Out.WriteLineAsync("Repairing popularity csv");
 
-        var uniqueCategoriesFromTaxonomyTask = Task.Run(() => GetUniqueCategoriesFromTaxonomies(TaxonomyFileDir));
-        var linesFromPopularityTask = Task.Run(() => GetLinesFromPopularity(PopularityFileDir));
+        var uniqueCategoriesFromTaxonomyTask = Task.Run(GetUniqueCategoriesFromTaxonomies);
+        var linesFromPopularityTask = Task.Run(GetLinesFromPopularity);
 
         await Task.WhenAll(uniqueCategoriesFromTaxonomyTask, linesFromPopularityTask);
         var uniqueCategoriesFromTaxonomy = uniqueCategoriesFromTaxonomyTask.Result;
@@ -40,33 +37,33 @@ public static class RepairDatasetService
         var oneMatchMisspelled = GetThoseWithOneMatch(misspelledCategoriesThatMatchesBadPopularityRecords);
         var merged = oneMatchMisspelled.Concat(goodPopularityRecords).ToDictionary();
 
-        await SaveFixedPopularityCsv(PopularityFixedFileDir, merged);
+        await SaveFixedPopularityCsv(DirectoryService.PopularityFixedFileDir, merged);
 
         await Console.Out.WriteLineAsync("Repairing done");
     }
 
-    private static HashSet<string> GetUniqueCategoriesFromTaxonomies(string taxonomyFileDir)
+    private static HashSet<string> GetUniqueCategoriesFromTaxonomies()
     {
         var uniqueValues = new HashSet<string>();
-        using var reader = new StreamReader(taxonomyFileDir);
+        using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
 
         while (reader.ReadLine() is { } line)
         {
             var firstComma = line.IndexOf(TaxonomySplitter, StringComparison.Ordinal);
             if (firstComma <= -1) continue;
-            uniqueValues.Add(line[..firstComma].TrimOnce(Trim));
-            uniqueValues.Add(line[(firstComma + 3)..].TrimOnce(Trim));
+            uniqueValues.Add(line.Substring(1, firstComma - 1));
+            uniqueValues.Add(line.Substring(firstComma + 3, line.Length - firstComma - 4));
         }
 
         return uniqueValues;
     }
 
-    private static (HashSet<string> badLines, HashSet<string> goodLines) GetLinesFromPopularity(string popularityFileDir)
+    private static (HashSet<string> badLines, HashSet<string> goodLines) GetLinesFromPopularity()
     {
         var badLines = new HashSet<string>();
         var goodLines = new HashSet<string>();
 
-        using var reader = new StreamReader(popularityFileDir);
+        using var reader = new StreamReader(DirectoryService.PopularityFileDir);
         while (reader.ReadLine() is { } line)
         {
             var parts = line.Split(Splitter);
@@ -185,20 +182,5 @@ public static class RepairDatasetService
         {
             await writer.WriteLineAsync($"\"{key}\",{value}");
         }
-    }
-
-    private static string TrimOnce(this string input, char trimChar)
-    {
-        if (input.StartsWith(trimChar))
-        {
-            input = input[1..];
-        }
-
-        if (input.EndsWith(trimChar))
-        {
-            input = input[..^1];
-        }
-
-        return input;
     }
 }
