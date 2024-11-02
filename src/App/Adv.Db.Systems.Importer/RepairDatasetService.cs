@@ -16,16 +16,21 @@ public static class RepairDatasetService
     {
         await Console.Out.WriteLineAsync("Repairing popularity csv");
 
-        var uniqueCategoriesFromTaxonomy = GetUniqueCategoriesFromTaxonomies(TaxonomyFileDir);
+        var uniqueCategoriesFromTaxonomyTask = Task.Run(() => GetUniqueCategoriesFromTaxonomies(TaxonomyFileDir));
+        var linesFromPopularityTask = Task.Run(() => GetLinesFromPopularity(PopularityFileDir));
 
-        var badLinesFromPopularity = GetBadLinesFromPopularity(PopularityFileDir);
-        var badPopularityRecords = GetBadPopularityRecords(badLinesFromPopularity);
+        await Task.WhenAll(uniqueCategoriesFromTaxonomyTask, linesFromPopularityTask);
+        var uniqueCategoriesFromTaxonomy = uniqueCategoriesFromTaxonomyTask.Result;
+        var (badLinesFromPopularity, goodLinesFromPopularity) = linesFromPopularityTask.Result;
 
-        var goodLinesFromPopularity = GetGoodLinesFromPopularity(PopularityFileDir);
-        var goodPopularityRecords = GetGoodPopularityRecords(goodLinesFromPopularity);
+        var badPopularityRecordsTask = Task.Run(() => GetBadPopularityRecords(badLinesFromPopularity));
+        var goodPopularityRecordsTask = Task.Run(() => GetGoodPopularityRecords(goodLinesFromPopularity));
 
-        var possiblyMisspelledCategories = GetPossiblyMisspelledCategories(goodPopularityRecords, uniqueCategoriesFromTaxonomy);
-        var possiblyMisspelledCategoriesThatContainsComma = possiblyMisspelledCategories.Where(category => category.Contains(',')).ToHashSet();
+        await Task.WhenAll(badPopularityRecordsTask, goodPopularityRecordsTask);
+        var badPopularityRecords = badPopularityRecordsTask.Result;
+        var goodPopularityRecords = goodPopularityRecordsTask.Result;
+
+        var possiblyMisspelledCategoriesThatContainsComma = GetPossiblyMisspelledCategories(goodPopularityRecords, uniqueCategoriesFromTaxonomy);
 
         var misspelledCategoriesThatMatchesBadPopularityRecords = GetMisspelledCategoriesThatMatchesOtherKeys(
             possiblyMisspelledCategoriesThatContainsComma,
@@ -56,30 +61,12 @@ public static class RepairDatasetService
         return uniqueValues;
     }
 
-    private static HashSet<string> GetBadLinesFromPopularity(string popularityFileDir)
+    private static (HashSet<string> badLines, HashSet<string> goodLines) GetLinesFromPopularity(string popularityFileDir)
     {
         var badLines = new HashSet<string>();
-        using var reader = new StreamReader(popularityFileDir);
-
-        while (reader.ReadLine() is { } line)
-        {
-            var parts = line.Split(Splitter);
-            var badPart = parts[0];
-
-            if (badPart.EndsWith(GoodEnding) is false)
-            {
-                badLines.Add(line);
-            }
-        }
-
-        return badLines;
-    }
-
-    private static HashSet<string> GetGoodLinesFromPopularity(string popularityFileDir)
-    {
         var goodLines = new HashSet<string>();
-        using var reader = new StreamReader(popularityFileDir);
 
+        using var reader = new StreamReader(popularityFileDir);
         while (reader.ReadLine() is { } line)
         {
             var parts = line.Split(Splitter);
@@ -89,9 +76,13 @@ public static class RepairDatasetService
             {
                 goodLines.Add(line);
             }
+            else
+            {
+                badLines.Add(line);
+            }
         }
 
-        return goodLines;
+        return (badLines, goodLines);
     }
 
     private static Dictionary<string, int> GetBadPopularityRecords(HashSet<string> badLinesFromPopularity)
@@ -102,7 +93,7 @@ public static class RepairDatasetService
             var parts = badLine.Split(Splitter);
             var key = parts[0].TrimOnce(Trim);
             var value = int.Parse(parts[1].TrimOnce(Trim));
-            badPopularityRecords.Add(key, value);
+            badPopularityRecords[key] = value;
         }
 
         return badPopularityRecords;
@@ -111,12 +102,12 @@ public static class RepairDatasetService
     private static Dictionary<string, int> GetGoodPopularityRecords(HashSet<string> goodLinesFromPopularity)
     {
         var goodPopularityRecords = new Dictionary<string, int>();
-        foreach (var badLine in goodLinesFromPopularity)
+        foreach (var goodLine in goodLinesFromPopularity)
         {
-            var parts = badLine.Split(Splitter);
+            var parts = goodLine.Split(Splitter);
             var key = parts[0].TrimOnce(Trim);
             var value = int.Parse(parts[1].TrimOnce(Trim));
-            goodPopularityRecords.Add(key, value);
+            goodPopularityRecords[key] = value;
         }
 
         return goodPopularityRecords;
@@ -133,7 +124,7 @@ public static class RepairDatasetService
             }
         }
 
-        return possiblyMisspelledCategories;
+        return possiblyMisspelledCategories.Where(category => category.Contains(',')).ToHashSet();
     }
 
     private static Dictionary<string, Tuple> GetMisspelledCategoriesThatMatchesOtherKeys(
@@ -178,7 +169,7 @@ public static class RepairDatasetService
         {
             if (tuple.Matches.Count == 1)
             {
-                oneMatchMisspelled.Add(tuple.Matches.First(), tuple.Rating);
+                oneMatchMisspelled[tuple.Matches.First()] = tuple.Rating;
             }
         }
 
