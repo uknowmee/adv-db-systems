@@ -16,16 +16,16 @@ await UnpackingService.UnpackGzippedData();
 var fixPopularityTask = RepairDatasetService.RepairPopularityCsv();
 var getUniqueCategoriesTask = CategoriesService.GetUniqueCategoriesFromTaxonomiesAsync();
 
-var savePopularityToDbTask = fixPopularityTask.ContinueWith(_ =>
-    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync().ContinueWith(_ => MemgraphService.SavePopularityAsync()).Unwrap()
-).Unwrap();
+var (uniqueCategories, lines)= await getUniqueCategoriesTask;
 
-var uniqueCategories = await getUniqueCategoriesTask;
+var savePopularityToDbTask = fixPopularityTask.ContinueWith(_ =>
+    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync(uniqueCategories).ContinueWith(_ => MemgraphService.SavePopularityAsync()).Unwrap()
+).Unwrap();
 
 var saveCategoriesCsvTask = CategoriesService.SaveUniqueCategoriesToMemgraphAcceptableCsvAsync(uniqueCategories);
 var saveCategoriesMemgraphTask = saveCategoriesCsvTask.ContinueWith(_ => MemgraphService.SaveUniqueCategoriesAsync()).Unwrap();
 
-var getRelationsTask = CategoriesService.GetCategoryRelationsFromTaxonomiesAsync(uniqueCategories);
+var getRelationsTask = CategoriesService.GetCategoryRelationsFromTaxonomiesAsync(uniqueCategories, lines);
 var saveRelationsCsvTask = getRelationsTask.ContinueWith(previous => CategoriesService.SaveCategoryRelationsToMemgraphAcceptableCsvAsync(previous.Result)).Unwrap();
 
 var subCategoriesMemgraphTask = saveCategoriesMemgraphTask.ContinueWith(_ =>

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 
 namespace Adv.Db.Systems.Importer;
@@ -7,6 +8,7 @@ public static class UnpackingService
     public static async Task UnpackGzippedData()
     {
         await Console.Out.WriteLineAsync("Unpacking data");
+        var stopwatch = Stopwatch.StartNew();
 
         var currentDir = Directory.GetCurrentDirectory();
         var compressedDir = Path.Combine(currentDir, DirectoryService.CompressedDataDir);
@@ -24,6 +26,6 @@ public static class UnpackingService
             await decompressedStream.CopyToAsync(fileStream);
         }
 
-        await Console.Out.WriteLineAsync("Unpacking done");
+        await Console.Out.WriteLineAsync($"Unpacking done. {stopwatch.GetInfo()}");
     }
 }

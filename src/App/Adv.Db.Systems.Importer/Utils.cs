@@ -1,4 +1,6 @@
-﻿namespace Adv.Db.Systems.Importer;
+﻿using System.Diagnostics;
+
+namespace Adv.Db.Systems.Importer;
 
 internal static class Utils
 {
@@ -25,5 +27,10 @@ internal static class Utils
     public static string ToUnixPath(this string path)
     {
         return path.Replace('\\', '/');
+    }
+
+    public static string GetInfo(this Stopwatch stopwatch)
+    {
+        return $"Took: {stopwatch.Elapsed.Hours}h{stopwatch.Elapsed.Minutes}m{stopwatch.Elapsed.Seconds}s{stopwatch.Elapsed.Milliseconds}ms";
     }
 }

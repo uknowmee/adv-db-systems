@@ -1,4 +1,6 @@
-﻿namespace Adv.Db.Systems.Importer;
+﻿using System.Diagnostics;
+
+namespace Adv.Db.Systems.Importer;
 
 public static class RepairDatasetService
 {
@@ -12,6 +14,7 @@ public static class RepairDatasetService
     public static async Task RepairPopularityCsv()
     {
         await Console.Out.WriteLineAsync("Repairing popularity csv");
+        var stopwatch = Stopwatch.StartNew();
 
         var uniqueCategoriesFromTaxonomyTask = GetUniqueCategoriesFromTaxonomies();
         var linesFromPopularityTask = GetLinesFromPopularity();
@@ -39,7 +42,7 @@ public static class RepairDatasetService
 
         await SaveFixedPopularityCsv(DirectoryService.PopularityFixedFileDir, merged);
 
-        await Console.Out.WriteLineAsync("Repairing done");
+        await Console.Out.WriteLineAsync($"Repairing done. {stopwatch.GetInfo()}");
     }
 
     private static async Task<HashSet<string>> GetUniqueCategoriesFromTaxonomies()
