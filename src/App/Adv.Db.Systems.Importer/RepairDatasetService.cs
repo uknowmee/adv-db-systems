@@ -13,15 +13,15 @@ public static class RepairDatasetService
     {
         await Console.Out.WriteLineAsync("Repairing popularity csv");
 
-        var uniqueCategoriesFromTaxonomyTask = Task.Run(GetUniqueCategoriesFromTaxonomies);
-        var linesFromPopularityTask = Task.Run(GetLinesFromPopularity);
+        var uniqueCategoriesFromTaxonomyTask = GetUniqueCategoriesFromTaxonomies();
+        var linesFromPopularityTask = GetLinesFromPopularity();
 
         await Task.WhenAll(uniqueCategoriesFromTaxonomyTask, linesFromPopularityTask);
         var uniqueCategoriesFromTaxonomy = uniqueCategoriesFromTaxonomyTask.Result;
         var (badLinesFromPopularity, goodLinesFromPopularity) = linesFromPopularityTask.Result;
 
-        var badPopularityRecordsTask = Task.Run(() => GetBadPopularityRecords(badLinesFromPopularity));
-        var goodPopularityRecordsTask = Task.Run(() => GetGoodPopularityRecords(goodLinesFromPopularity));
+        var badPopularityRecordsTask = GetBadPopularityRecords(badLinesFromPopularity);
+        var goodPopularityRecordsTask = GetGoodPopularityRecords(goodLinesFromPopularity);
 
         await Task.WhenAll(badPopularityRecordsTask, goodPopularityRecordsTask);
         var badPopularityRecords = badPopularityRecordsTask.Result;
@@ -42,12 +42,12 @@ public static class RepairDatasetService
         await Console.Out.WriteLineAsync("Repairing done");
     }
 
-    private static HashSet<string> GetUniqueCategoriesFromTaxonomies()
+    private static async Task<HashSet<string>> GetUniqueCategoriesFromTaxonomies()
     {
         var uniqueValues = new HashSet<string>();
         using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
 
-        while (reader.ReadLine() is { } line)
+        while (await reader.ReadLineAsync() is { } line)
         {
             var firstComma = line.IndexOf(TaxonomySplitter, StringComparison.Ordinal);
             if (firstComma <= -1) continue;
@@ -58,13 +58,13 @@ public static class RepairDatasetService
         return uniqueValues;
     }
 
-    private static (HashSet<string> badLines, HashSet<string> goodLines) GetLinesFromPopularity()
+    private static async Task<(HashSet<string> badLines, HashSet<string> goodLines)> GetLinesFromPopularity()
     {
         var badLines = new HashSet<string>();
         var goodLines = new HashSet<string>();
 
         using var reader = new StreamReader(DirectoryService.PopularityFileDir);
-        while (reader.ReadLine() is { } line)
+        while (await reader.ReadLineAsync() is { } line)
         {
             var parts = line.Split(Splitter);
             var badPart = parts[0];
@@ -82,7 +82,7 @@ public static class RepairDatasetService
         return (badLines, goodLines);
     }
 
-    private static Dictionary<string, int> GetBadPopularityRecords(HashSet<string> badLinesFromPopularity)
+    private static Task<Dictionary<string, int>> GetBadPopularityRecords(HashSet<string> badLinesFromPopularity)
     {
         var badPopularityRecords = new Dictionary<string, int>();
         foreach (var badLine in badLinesFromPopularity)
@@ -93,10 +93,10 @@ public static class RepairDatasetService
             badPopularityRecords[key] = value;
         }
 
-        return badPopularityRecords;
+        return Task.FromResult(badPopularityRecords);
     }
 
-    private static Dictionary<string, int> GetGoodPopularityRecords(HashSet<string> goodLinesFromPopularity)
+    private static Task<Dictionary<string, int>> GetGoodPopularityRecords(HashSet<string> goodLinesFromPopularity)
     {
         var goodPopularityRecords = new Dictionary<string, int>();
         foreach (var goodLine in goodLinesFromPopularity)
@@ -107,7 +107,7 @@ public static class RepairDatasetService
             goodPopularityRecords[key] = value;
         }
 
-        return goodPopularityRecords;
+        return Task.FromResult(goodPopularityRecords);
     }
 
     private static HashSet<string> GetPossiblyMisspelledCategories(Dictionary<string, int> goodPopularityRecords, HashSet<string> uniqueCategoriesFromTaxonomy)
