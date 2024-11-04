@@ -92,4 +92,10 @@ public static class MemgraphService
 
         await Console.Out.WriteLineAsync($"Popularity Relations inserted to Memgraph. {stopwatch.GetInfo()}");
     }
+
+    public static async Task FireCreateCategoryNameIndex()
+    {
+        const string createIndexQuery = "CREATE INDEX ON :Category(name)";
+        await Session.RunAsync(createIndexQuery);
+    }
 }
