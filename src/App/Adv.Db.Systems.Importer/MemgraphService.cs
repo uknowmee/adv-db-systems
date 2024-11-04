@@ -44,7 +44,7 @@ public static class MemgraphService
                                        USING PERIODIC COMMIT 1000000
                                        LOAD CSV FROM "{{CategoryRelationsDir}}" NO HEADER AS row
                                        MATCH (c:Category {id: row[0]})
-                                       MATCH (sc:Category {id: row[2]})
+                                       MATCH (sc:Category {id: row[1]})
                                        CREATE (c)-[:HAS_SUBCATEGORY]->(sc);
                                    """;
         var result = await Session.RunAsync(addCategoriesQuery);
@@ -83,7 +83,7 @@ public static class MemgraphService
                                                 USING PERIODIC COMMIT 100000
                                                 LOAD CSV FROM "{{PopularityRelationsDir}}" NO HEADER AS row
                                                 MATCH (c:Category {id: row[0]})
-                                                MATCH (p:Popularity {id: row[2]})
+                                                MATCH (p:Popularity {id: row[1]})
                                                 CREATE (c)-[:HAS_POPULARITY]->(p)
                                             """;
 

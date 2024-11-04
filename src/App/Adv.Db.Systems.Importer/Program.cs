@@ -40,10 +40,15 @@ var saveSubCategoriesToMemgraphTask = saveCategoriesToMemgraphTask.ContinueWith(
     saveCategoryRelationsToCsvTask.ContinueWith(_ => MemgraphService.SaveCategoriesRelationsAsync()).Unwrap()
 ).Unwrap();
 
-await Task.WhenAll(saveCategoriesToMemgraphTask, savePopularityToMemgraphTask, savePopularityRelationsToCsvTask);
-var categoriesPopularityToDbTask = MemgraphService.SavePopularityRelationsAsync();
+var savePopularityRelationsToMemgraphTask = saveCategoriesToMemgraphTask.ContinueWith(_ =>
+    savePopularityToMemgraphTask.ContinueWith(_ =>
+        savePopularityRelationsToCsvTask.ContinueWith(_ =>
+            MemgraphService.SavePopularityRelationsAsync()
+        ).Unwrap()
+    ).Unwrap()
+).Unwrap();
 
-await Task.WhenAll(saveSubCategoriesToMemgraphTask, categoriesPopularityToDbTask);
+await Task.WhenAll(saveSubCategoriesToMemgraphTask, savePopularityRelationsToMemgraphTask);
 
 Console.Out.WriteLine($"Importing finished {Utils.DateNow()}");
 Console.Out.WriteLine($"Took: {stopwatch.Elapsed.Hours}h{stopwatch.Elapsed.Minutes}m{stopwatch.Elapsed.Seconds}s{stopwatch.Elapsed.Milliseconds}ms");

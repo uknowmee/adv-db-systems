@@ -9,10 +9,6 @@ public static class CategoriesService
     private const string Backslash = "\\";
     private const string SingleQuote = "\"";
 
-    public record CategoryInfo(int Id, string Name);
-
-    public record CategoryRelation(CategoryInfo Category, CategoryInfo SubCategory);
-
     public static async Task<(ImmutableSortedDictionary<int, string>, ImmutableArray<(string Category, string SubCategory)>)> GetUniqueCategoriesFromTaxonomiesAsync()
     {
         await Console.Out.WriteLineAsync("Getting unique categories from taxonomies");
@@ -46,7 +42,7 @@ public static class CategoriesService
         return (result, [..lines]);
     }
 
-    public static async Task<ImmutableArray<CategoryRelation>> GetCategoryRelationsFromTaxonomiesAsync(
+    public static async Task<ImmutableArray<(int CategoryId, int SubCategoryId)>> GetCategoryRelationsFromTaxonomiesAsync(
         ImmutableSortedDictionary<int, string> categories,
         ImmutableArray<(string Category, string SubCategory)> lines
     )
@@ -54,7 +50,7 @@ public static class CategoriesService
         await Console.Out.WriteLineAsync("Getting category relations from taxonomies");
         var stopwatch = Stopwatch.StartNew();
 
-        var categoryRelations = new List<CategoryRelation>();
+        var categoryRelations = new List<(int CategoryId, int SubCategoryId)>();
         using var reader = new StreamReader(DirectoryService.OriginalTaxonomyFileDir);
 
         var categoryDict = categories.ToDictionary(x => x.Value, x => x.Key);
@@ -66,18 +62,13 @@ public static class CategoriesService
                 continue;
             }
 
-            var relation = new CategoryRelation(
-                new CategoryInfo(categoryKey, line.Category),
-                new CategoryInfo(subCategoryKey, line.SubCategory)
-            );
-
-            categoryRelations.Add(relation);
+            categoryRelations.Add((categoryKey, subCategoryKey));
         }
 
         categoryRelations.Sort((x, y) =>
             {
-                var categoryComparison = x.Category.Id.CompareTo(y.Category.Id);
-                return categoryComparison != 0 ? categoryComparison : x.SubCategory.Id.CompareTo(y.SubCategory.Id);
+                var categoryComparison = x.CategoryId.CompareTo(y.CategoryId);
+                return categoryComparison != 0 ? categoryComparison : x.SubCategoryId.CompareTo(y.SubCategoryId);
             }
         );
 
@@ -103,7 +94,7 @@ public static class CategoriesService
         await Console.Out.WriteLineAsync($"Unique categories saved to Memgraph acceptable CSV. {stopwatch.GetInfo()}");
     }
 
-    public static async Task SaveCategoryRelationsToMemgraphAcceptableCsvAsync(ImmutableArray<CategoryRelation> categoryRelations)
+    public static async Task SaveCategoryRelationsToMemgraphAcceptableCsvAsync(ImmutableArray<(int CategoryId, int SubCategoryId)> categoryRelations)
     {
         await Console.Out.WriteLineAsync("Saving category relations to Memgraph acceptable CSV");
         var stopwatch = Stopwatch.StartNew();
@@ -113,7 +104,7 @@ public static class CategoriesService
 
         foreach (var relation in categoryRelations)
         {
-            await writer.WriteLineAsync($"{relation.Category.Id},\"{relation.Category.Name}\",{relation.SubCategory.Id},\"{relation.SubCategory.Name}\"");
+            await writer.WriteLineAsync($"{relation.CategoryId},{relation.SubCategoryId}");
         }
 
         await Console.Out.WriteLineAsync($"Category relations saved to Memgraph acceptable CSV. {stopwatch.GetInfo()}");

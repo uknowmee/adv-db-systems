@@ -5,8 +5,6 @@ namespace Adv.Db.Systems.Importer;
 
 public static class PopularityService
 {
-    private record Popularity(int CategoryId, string CategoryName, int PopularityValue);
-
     public static async Task SavePopularityToMemgraphAcceptableCsvAsync(
         ImmutableDictionary<string, int> popularity
     )
@@ -42,11 +40,11 @@ public static class PopularityService
                 {
                     var (categoryName, popularityValue) = kvp;
                     var categoryId = categoryDict.GetValueOrDefault(categoryName, -1);
-                    return new Popularity(categoryId, categoryName, popularityValue);
+                    return (categoryId, popularityValue);
                 }
             )
-            .OrderBy(p => p.PopularityValue)
-            .ThenBy(p => p.CategoryId)
+            .OrderBy(p => p.popularityValue)
+            .ThenBy(p => p.categoryId)
             .ToImmutableArray();
 
         await using var fileStream = new FileStream(DirectoryService.PopularityRelationsDir, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true);
@@ -54,7 +52,7 @@ public static class PopularityService
 
         foreach (var record in orderedPopularity)
         {
-            await writer.WriteLineAsync($"{record.CategoryId},\"{record.CategoryName}\",{record.PopularityValue}");
+            await writer.WriteLineAsync($"{record.categoryId},{record.popularityValue}");
         }
 
         await Console.Out.WriteLineAsync($"Popularity realtions saved to Memgraph acceptable CSV. {stopwatch.GetInfo()}");
