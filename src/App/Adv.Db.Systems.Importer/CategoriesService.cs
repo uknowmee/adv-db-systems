@@ -6,6 +6,8 @@ namespace Adv.Db.Systems.Importer;
 public static class CategoriesService
 {
     private const string TaxonomySplitter = "\",\"";
+    private const string Backslash = "\\";
+    private const string SingleQuote = "\"";
 
     public record CategoryInfo(int Id, string Name);
 
@@ -23,7 +25,7 @@ public static class CategoriesService
 
         while (await reader.ReadLineAsync() is { } line)
         {
-            line = line.Replace("\\", "\"");
+            line = line.Replace(Backslash, SingleQuote);
             var firstComma = line.IndexOf(TaxonomySplitter, StringComparison.Ordinal);
             if (firstComma <= -1) continue;
 

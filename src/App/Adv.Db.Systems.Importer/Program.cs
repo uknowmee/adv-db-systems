@@ -11,22 +11,26 @@ var dataDir = args.Length == 0
     : Directory.GetParent(args[0])?.FullName ?? DirectoryService.GetProjectRoot().GoToRepoRoot();
 dataDir.SetAsCurrentDirectory();
 
-await UnpackingService.UnpackGzippedData();
+await UnpackingService.UnpackGzippedDataAsync();
 
-var fixPopularityTask = RepairDatasetService.RepairPopularityCsv();
+var fixPopularityTask = RepairDatasetService.RepairPopularityCsvAsync();
 var getUniqueCategoriesTask = CategoriesService.GetUniqueCategoriesFromTaxonomiesAsync();
 
-var (uniqueCategories, lines)= await getUniqueCategoriesTask;
+var (uniqueCategories, lines) = await getUniqueCategoriesTask;
 
-var savePopularityToDbTask = fixPopularityTask.ContinueWith(_ =>
-    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync(uniqueCategories).ContinueWith(_ => MemgraphService.SavePopularityAsync()).Unwrap()
+var savePopularityToDbTask = fixPopularityTask.ContinueWith(previous =>
+    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync(uniqueCategories, previous.Result).ContinueWith(_ => MemgraphService.SavePopularityAsync()).Unwrap()
 ).Unwrap();
 
 var saveCategoriesCsvTask = CategoriesService.SaveUniqueCategoriesToMemgraphAcceptableCsvAsync(uniqueCategories);
-var saveCategoriesMemgraphTask = saveCategoriesCsvTask.ContinueWith(_ => MemgraphService.SaveUniqueCategoriesAsync()).Unwrap();
+var saveCategoriesMemgraphTask = saveCategoriesCsvTask.ContinueWith(_ =>
+    MemgraphService.SaveUniqueCategoriesAsync()
+).Unwrap();
 
 var getRelationsTask = CategoriesService.GetCategoryRelationsFromTaxonomiesAsync(uniqueCategories, lines);
-var saveRelationsCsvTask = getRelationsTask.ContinueWith(previous => CategoriesService.SaveCategoryRelationsToMemgraphAcceptableCsvAsync(previous.Result)).Unwrap();
+var saveRelationsCsvTask = getRelationsTask.ContinueWith(previous =>
+    CategoriesService.SaveCategoryRelationsToMemgraphAcceptableCsvAsync(previous.Result)
+).Unwrap();
 
 var subCategoriesMemgraphTask = saveCategoriesMemgraphTask.ContinueWith(_ =>
     saveRelationsCsvTask.ContinueWith(_ => MemgraphService.SaveCategoriesRelationsAsync()).Unwrap()

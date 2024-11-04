@@ -5,7 +5,7 @@ namespace Adv.Db.Systems.Importer;
 
 public static class PopularityService
 {
-    public static async Task SavePopularityToMemgraphAcceptableCsvAsync(ImmutableSortedDictionary<int, string> uniqueCategories)
+    public static async Task SavePopularityToMemgraphAcceptableCsvAsync(ImmutableSortedDictionary<int, string> uniqueCategories, ImmutableDictionary<string, int> popularity)
     {
         await Console.Out.WriteLineAsync("Saving popularity to Memgraph acceptable CSV");
         var stopwatch = Stopwatch.StartNew();

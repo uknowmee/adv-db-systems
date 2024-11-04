@@ -5,7 +5,7 @@ namespace Adv.Db.Systems.Importer;
 
 public static class UnpackingService
 {
-    public static async Task UnpackGzippedData()
+    public static async Task UnpackGzippedDataAsync()
     {
         await Console.Out.WriteLineAsync("Unpacking data");
         var stopwatch = Stopwatch.StartNew();

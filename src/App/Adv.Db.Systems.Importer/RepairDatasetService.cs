@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace Adv.Db.Systems.Importer;
 
@@ -7,24 +8,26 @@ public static class RepairDatasetService
     private const string Splitter = ",";
     private const string TaxonomySplitter = "\",\"";
     private const string GoodEnding = "\"";
+    private const string SingleQuote = "\"";
+    private const string DoubleQuote = "\"\"";
     private const char Trim = '"';
 
     private record Tuple(int Rating, List<string> Matches);
 
-    public static async Task RepairPopularityCsv()
+    public static async Task<ImmutableDictionary<string, int>> RepairPopularityCsvAsync()
     {
         await Console.Out.WriteLineAsync("Repairing popularity csv");
         var stopwatch = Stopwatch.StartNew();
 
-        var uniqueCategoriesFromTaxonomyTask = GetUniqueCategoriesFromTaxonomies();
-        var linesFromPopularityTask = GetLinesFromPopularity();
+        var uniqueCategoriesFromTaxonomyTask = GetUniqueCategoriesFromTaxonomiesAsync();
+        var linesFromPopularityTask = GetLinesFromPopularityAsync();
 
         await Task.WhenAll(uniqueCategoriesFromTaxonomyTask, linesFromPopularityTask);
         var uniqueCategoriesFromTaxonomy = uniqueCategoriesFromTaxonomyTask.Result;
         var (badLinesFromPopularity, goodLinesFromPopularity) = linesFromPopularityTask.Result;
 
-        var badPopularityRecordsTask = GetBadPopularityRecords(badLinesFromPopularity);
-        var goodPopularityRecordsTask = GetGoodPopularityRecords(goodLinesFromPopularity);
+        var badPopularityRecordsTask = GetBadPopularityRecordsAsync(badLinesFromPopularity);
+        var goodPopularityRecordsTask = GetGoodPopularityRecordsAsync(goodLinesFromPopularity);
 
         await Task.WhenAll(badPopularityRecordsTask, goodPopularityRecordsTask);
         var badPopularityRecords = badPopularityRecordsTask.Result;
@@ -38,14 +41,16 @@ public static class RepairDatasetService
         );
 
         var oneMatchMisspelled = GetThoseWithOneMatch(misspelledCategoriesThatMatchesBadPopularityRecords);
-        var merged = oneMatchMisspelled.Concat(goodPopularityRecords).ToDictionary();
+        var popularity = ConcatAndFormat(oneMatchMisspelled, goodPopularityRecords);
 
-        await SaveFixedPopularityCsv(DirectoryService.PopularityFixedFileDir, merged);
+        await SaveFixedPopularityCsvAsync(DirectoryService.PopularityFixedFileDir, popularity);
 
         await Console.Out.WriteLineAsync($"Repairing done. {stopwatch.GetInfo()}");
+
+        return popularity.ToImmutableDictionary();
     }
 
-    private static async Task<HashSet<string>> GetUniqueCategoriesFromTaxonomies()
+    private static async Task<HashSet<string>> GetUniqueCategoriesFromTaxonomiesAsync()
     {
         var uniqueValues = new HashSet<string>();
         using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
@@ -61,7 +66,7 @@ public static class RepairDatasetService
         return uniqueValues;
     }
 
-    private static async Task<(HashSet<string> badLines, HashSet<string> goodLines)> GetLinesFromPopularity()
+    private static async Task<(HashSet<string> badLines, HashSet<string> goodLines)> GetLinesFromPopularityAsync()
     {
         var badLines = new HashSet<string>();
         var goodLines = new HashSet<string>();
@@ -85,7 +90,7 @@ public static class RepairDatasetService
         return (badLines, goodLines);
     }
 
-    private static Task<Dictionary<string, int>> GetBadPopularityRecords(HashSet<string> badLinesFromPopularity)
+    private static Task<Dictionary<string, int>> GetBadPopularityRecordsAsync(HashSet<string> badLinesFromPopularity)
     {
         var badPopularityRecords = new Dictionary<string, int>();
         foreach (var badLine in badLinesFromPopularity)
@@ -99,7 +104,7 @@ public static class RepairDatasetService
         return Task.FromResult(badPopularityRecords);
     }
 
-    private static Task<Dictionary<string, int>> GetGoodPopularityRecords(HashSet<string> goodLinesFromPopularity)
+    private static Task<Dictionary<string, int>> GetGoodPopularityRecordsAsync(HashSet<string> goodLinesFromPopularity)
     {
         var goodPopularityRecords = new Dictionary<string, int>();
         foreach (var goodLine in goodLinesFromPopularity)
@@ -176,7 +181,15 @@ public static class RepairDatasetService
         return oneMatchMisspelled;
     }
 
-    private static async Task SaveFixedPopularityCsv(string fileDir, Dictionary<string, int> merged)
+    private static Dictionary<string, int> ConcatAndFormat(Dictionary<string, int> oneMatchMisspelled, Dictionary<string, int> goodPopularityRecords)
+    {
+        var merged = oneMatchMisspelled.Concat(goodPopularityRecords).ToDictionary();
+        merged = merged.ToDictionary(x => x.Key.Replace(SingleQuote, DoubleQuote), x => x.Value);
+
+        return merged;
+    }
+
+    private static async Task SaveFixedPopularityCsvAsync(string fileDir, Dictionary<string, int> merged)
     {
         await using var fileStream = new FileStream(fileDir, FileMode.Create);
         await using var writer = new StreamWriter(fileStream);
