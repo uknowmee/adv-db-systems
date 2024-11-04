@@ -30,11 +30,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.App", "src\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E8128389-6940-4B24-9573-B18563DCB637}"
 	ProjectSection(SolutionItems) = preProject
-		docs\Readme.md = docs\Readme.md
+		docs\README.md = docs\README.md
 		docs\popularity.md = docs\popularity.md
+		docs\results.md = docs\results.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.Importer", "src\App\Adv.Db.Systems.Importer\Adv.Db.Systems.Importer.csproj", "{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{E66C767E-0144-4902-85F6-F6B627521DD3}"
+	ProjectSection(SolutionItems) = preProject
+		.run\Adv.Db.Systems.App.run.xml = .run\Adv.Db.Systems.App.run.xml
+		.run\Adv.Db.Systems.Importer.run.xml = .run\Adv.Db.Systems.Importer.run.xml
+		.run\memgraph-compose.run.xml = .run\memgraph-compose.run.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using Adv.Db.Systems.Importer;
 Console.Out.WriteLine($"Importing started {Utils.DateNow()}");
 var stopwatch = Stopwatch.StartNew();
 
-Console.WriteLine($"args: [{string.Join(", ", args.Length == 0 ? [] : args)}]");
+Console.Out.WriteLine($"args: [{string.Join(", ", args.Length == 0 ? [] : args)}]");
 
 var dataDir = args.Length == 0
     ? DirectoryService.GetProjectRoot().GoToRepoRoot()
