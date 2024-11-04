@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-F
 	ProjectSection(SolutionItems) = preProject
 		data\popularity_iw.csv = data\popularity_iw.csv
 		data\taxonomy_iw.csv = data\taxonomy_iw.csv
-		data\popularity_fixed.csv = data\popularity_fixed.csv
 		data\README.md = data\README.md
 	EndProjectSection
 EndProject

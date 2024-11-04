@@ -43,8 +43,6 @@ public static class RepairDatasetService
         var oneMatchMisspelled = GetThoseWithOneMatch(misspelledCategoriesThatMatchesBadPopularityRecords);
         var popularity = ConcatAndFormat(oneMatchMisspelled, goodPopularityRecords);
 
-        await SaveFixedPopularityCsvAsync(DirectoryService.PopularityFixedFileDir, popularity);
-
         await Console.Out.WriteLineAsync($"Repairing done. {stopwatch.GetInfo()}");
 
         return popularity.ToImmutableDictionary();
@@ -53,7 +51,7 @@ public static class RepairDatasetService
     private static async Task<HashSet<string>> GetUniqueCategoriesFromTaxonomiesAsync()
     {
         var uniqueValues = new HashSet<string>();
-        using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
+        using var reader = new StreamReader(DirectoryService.OriginalTaxonomyFileDir);
 
         while (await reader.ReadLineAsync() is { } line)
         {
@@ -71,7 +69,7 @@ public static class RepairDatasetService
         var badLines = new HashSet<string>();
         var goodLines = new HashSet<string>();
 
-        using var reader = new StreamReader(DirectoryService.PopularityFileDir);
+        using var reader = new StreamReader(DirectoryService.OriginalPopularityFileDir);
         while (await reader.ReadLineAsync() is { } line)
         {
             var parts = line.Split(Splitter);
@@ -187,16 +185,5 @@ public static class RepairDatasetService
         merged = merged.ToDictionary(x => x.Key.Replace(SingleQuote, DoubleQuote), x => x.Value);
 
         return merged;
-    }
-
-    private static async Task SaveFixedPopularityCsvAsync(string fileDir, Dictionary<string, int> merged)
-    {
-        await using var fileStream = new FileStream(fileDir, FileMode.Create);
-        await using var writer = new StreamWriter(fileStream);
-
-        foreach (var (key, value) in merged)
-        {
-            await writer.WriteLineAsync($"\"{key}\",{value}");
-        }
     }
 }

@@ -9,6 +9,8 @@ public static class MemgraphService
 
     private static readonly string CategoriesDir = DirectoryService.CategoriesDir.ToUnixPath();
     private static readonly string CategoryRelationsDir = DirectoryService.CategoryRelationsDir.ToUnixPath();
+    private static readonly string PopularityDir = DirectoryService.PopularityDir.ToUnixPath();
+    private static readonly string PopularityRelationsDir = DirectoryService.PopularityRelationsDir.ToUnixPath();
 
     private static readonly IDriver Driver = GraphDatabase.Driver(MemgraphUrl, AuthTokens.None);
     private static readonly IAsyncSession Session = Driver.AsyncSession();
@@ -53,17 +55,41 @@ public static class MemgraphService
 
     public static async Task SavePopularityAsync()
     {
-        await Console.Out.WriteLineAsync("Inserting Popularises to Memgraph");
+        await Console.Out.WriteLineAsync("Inserting Popularity to Memgraph");
         var stopwatch = Stopwatch.StartNew();
-        await Task.Delay(0);
-        await Console.Out.WriteLineAsync($"Popularises inserted to Memgraph. {stopwatch.GetInfo()}");
+
+        const string createIndexQuery = "CREATE INDEX ON :Popularity(id)";
+        var result = await Session.RunAsync(createIndexQuery);
+        await result.ConsumeAsync();
+
+        var addPopularityQuery = $$"""
+                                       USING PERIODIC COMMIT 100000
+                                       LOAD CSV FROM "{{PopularityDir}}" NO HEADER AS row
+                                       CREATE (n:Popularity {id: row[0]})
+                                   """;
+
+        result = await Session.RunAsync(addPopularityQuery);
+        await result.ConsumeAsync();
+
+        await Console.Out.WriteLineAsync($"Popularity inserted to Memgraph. {stopwatch.GetInfo()}");
     }
 
     public static async Task SavePopularityRelationsAsync()
     {
-        await Console.Out.WriteLineAsync("Inserting Popularises Relations to Memgraph");
+        await Console.Out.WriteLineAsync("Inserting Popularity Relations to Memgraph");
         var stopwatch = Stopwatch.StartNew();
-        await Task.Delay(0);
-        await Console.Out.WriteLineAsync($"Popularises Relations inserted to Memgraph. {stopwatch.GetInfo()}");
+
+        var addPopularityRelationsQuery = $$"""
+                                                USING PERIODIC COMMIT 100000
+                                                LOAD CSV FROM "{{PopularityRelationsDir}}" NO HEADER AS row
+                                                MATCH (c:Category {id: row[0]})
+                                                MATCH (p:Popularity {id: row[2]})
+                                                CREATE (c)-[:HAS_POPULARITY]->(p)
+                                            """;
+
+        var result = await Session.RunAsync(addPopularityRelationsQuery);
+        await result.ConsumeAsync();
+
+        await Console.Out.WriteLineAsync($"Popularity Relations inserted to Memgraph. {stopwatch.GetInfo()}");
     }
 }

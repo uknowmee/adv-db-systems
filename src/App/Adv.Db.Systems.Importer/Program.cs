@@ -18,29 +18,32 @@ var getUniqueCategoriesTask = CategoriesService.GetUniqueCategoriesFromTaxonomie
 
 var (uniqueCategories, lines) = await getUniqueCategoriesTask;
 
-var savePopularityToDbTask = fixPopularityTask.ContinueWith(previous =>
-    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync(uniqueCategories, previous.Result).ContinueWith(_ => MemgraphService.SavePopularityAsync()).Unwrap()
+var savePopularityToMemgraphTask = fixPopularityTask.ContinueWith(previous =>
+    PopularityService.SavePopularityToMemgraphAcceptableCsvAsync(previous.Result).ContinueWith(_ =>
+        MemgraphService.SavePopularityAsync()
+    ).Unwrap()
 ).Unwrap();
 
-var saveCategoriesCsvTask = CategoriesService.SaveUniqueCategoriesToMemgraphAcceptableCsvAsync(uniqueCategories);
-var saveCategoriesMemgraphTask = saveCategoriesCsvTask.ContinueWith(_ =>
+var savePopularityRelationsToCsvTask = fixPopularityTask.ContinueWith(previous =>
+    PopularityService.SavePopularityRelationsToMemgraphAcceptableCsvAsync(uniqueCategories, previous.Result)
+).Unwrap();
+
+var saveCategoriesToMemgraphTask = CategoriesService.SaveUniqueCategoriesToMemgraphAcceptableCsvAsync(uniqueCategories).ContinueWith(_ =>
     MemgraphService.SaveUniqueCategoriesAsync()
 ).Unwrap();
 
-var getRelationsTask = CategoriesService.GetCategoryRelationsFromTaxonomiesAsync(uniqueCategories, lines);
-var saveRelationsCsvTask = getRelationsTask.ContinueWith(previous =>
+var saveCategoryRelationsToCsvTask = CategoriesService.GetCategoryRelationsFromTaxonomiesAsync(uniqueCategories, lines).ContinueWith(previous =>
     CategoriesService.SaveCategoryRelationsToMemgraphAcceptableCsvAsync(previous.Result)
 ).Unwrap();
 
-var subCategoriesMemgraphTask = saveCategoriesMemgraphTask.ContinueWith(_ =>
-    saveRelationsCsvTask.ContinueWith(_ => MemgraphService.SaveCategoriesRelationsAsync()).Unwrap()
+var saveSubCategoriesToMemgraphTask = saveCategoriesToMemgraphTask.ContinueWith(_ =>
+    saveCategoryRelationsToCsvTask.ContinueWith(_ => MemgraphService.SaveCategoriesRelationsAsync()).Unwrap()
 ).Unwrap();
 
-var categoriesPopularityToDbTask = savePopularityToDbTask.ContinueWith(_ =>
-    saveCategoriesMemgraphTask.ContinueWith(_ => MemgraphService.SavePopularityRelationsAsync()).Unwrap()
-).Unwrap();
+await Task.WhenAll(saveCategoriesToMemgraphTask, savePopularityToMemgraphTask, savePopularityRelationsToCsvTask);
+var categoriesPopularityToDbTask = MemgraphService.SavePopularityRelationsAsync();
 
-await Task.WhenAll(subCategoriesMemgraphTask, categoriesPopularityToDbTask);
+await Task.WhenAll(saveSubCategoriesToMemgraphTask, categoriesPopularityToDbTask);
 
 Console.Out.WriteLine($"Importing finished {Utils.DateNow()}");
 Console.Out.WriteLine($"Took: {stopwatch.Elapsed.Hours}h{stopwatch.Elapsed.Minutes}m{stopwatch.Elapsed.Seconds}s{stopwatch.Elapsed.Milliseconds}ms");

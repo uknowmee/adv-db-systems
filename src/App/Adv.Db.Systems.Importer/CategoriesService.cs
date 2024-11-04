@@ -21,7 +21,7 @@ public static class CategoriesService
         var uniqueValues = new HashSet<string>();
         var lines = new List<(string Category, string SubCategory)>();
 
-        using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
+        using var reader = new StreamReader(DirectoryService.OriginalTaxonomyFileDir);
 
         while (await reader.ReadLineAsync() is { } line)
         {
@@ -55,7 +55,7 @@ public static class CategoriesService
         var stopwatch = Stopwatch.StartNew();
 
         var categoryRelations = new List<CategoryRelation>();
-        using var reader = new StreamReader(DirectoryService.TaxonomyFileDir);
+        using var reader = new StreamReader(DirectoryService.OriginalTaxonomyFileDir);
 
         var categoryDict = categories.ToDictionary(x => x.Value, x => x.Key);
 
