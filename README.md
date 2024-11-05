@@ -30,8 +30,13 @@
 1. To publish self-contained app with runtime use
     - linux: `dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o publish/linux`
     - win: `dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/windows`
-2. To publish AOT without runtime uncomment `<PublishAot>true</PublishAot>`  in [Importer.csproj](src/App/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj)
+
+### Publish AOT
+
+1. To publish AOT without runtime uncomment `<PublishAot>true</PublishAot>`  in [Importer.csproj](src/App/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj)
    and [App.csproj](src/App/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj):
+    - make sure you have all [prerequisites](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/?tabs=windows%2Cnet8). Cross-platform compiling is not
+      supported.
     - linux: `dotnet publish -c Release -r linux-x64 -o publish/linux/aot`
     - win: `dotnet publish -c Release -r win-x64 -o publish/windows/aot`
 
