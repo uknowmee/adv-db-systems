@@ -90,12 +90,16 @@ public static class Queries
 
     public static string PopularityChange
         => """
-           MATCH (n:Category {name: $nodeName})-[relationNodePopularity:HAS_POPULARITY]->(oldPopularity:Popularity)
-           DELETE relationNodePopularity
-           WITH n, oldPopularity, oldPopularity.id AS oldPopularityId
-           OPTIONAL MATCH (otherNode:Category)-[:HAS_POPULARITY]->(oldPopularity)
-           WITH n, oldPopularity, oldPopularityId, COUNT(otherNode) AS relatedCount
-           FOREACH (_ IN CASE WHEN relatedCount = 0 THEN [1] ELSE [] END |
+           MATCH (n:Category {name: $nodeName})
+           OPTIONAL MATCH (n)-[relationNodePopularity:HAS_POPULARITY]->(oldPopularity:Popularity)
+           WITH n, oldPopularity, relationNodePopularity
+           FOREACH (_ IN CASE WHEN relationNodePopularity IS NOT NULL THEN [1] ELSE [] END |
+             DELETE relationNodePopularity
+           )
+           WITH n, oldPopularity
+           OPTIONAL MATCH (otherNode:Category)-[:HAS_POPULARITY]->(oldPopularity:Popularity)
+           WITH n, oldPopularity, COALESCE(oldPopularity.id, "NONE") AS oldPopularityId, COUNT(otherNode) AS relatedCount
+           FOREACH (_ IN CASE WHEN oldPopularity IS NOT NULL AND relatedCount = 0 THEN [1] ELSE [] END |
              DELETE oldPopularity
            )
            MERGE (newPopularity:Popularity {id: $newNodePopularity})

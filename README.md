@@ -1,6 +1,6 @@
 # Advanced Db Systems
 
-#### [Docs](docs/Readme.md)
+#### [Docs](docs/README.md)
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## Installation and configuration instructions
 
-### Build from source
+### Run from source
 
 1. To run `memgraph-compose` use `docker compose -f compose.yaml up -d`
 2. To run `Adv.Db.Systems.Importer` use `dotnet run --project src/App/Adv.Db.Systems.Importer/`, or just `dotnet run` in specified project dir.

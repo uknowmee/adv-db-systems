@@ -23,7 +23,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task01), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => r["child"].As<INode>().Properties["name"]));
+        var consoleOutput = $"sub-categories: [{string.Join(", ", records.Select(r => r["child"].As<INode>().Properties["name"]))}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -37,7 +37,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task02), summary, records);
-        var consoleOutput = records.Single()["childCount"].As<string>();
+        var consoleOutput = $"children count: {records.Single()["childCount"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -51,7 +51,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task03), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => r["grandchild"].As<INode>().Properties["name"]));
+        var consoleOutput = $"grandchildren sub-categories: [{string.Join(", ", records.Select(r => r["grandchild"].As<INode>().Properties["name"]))}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -65,7 +65,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task04), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => r["parent"].As<INode>().Properties["name"]));
+        var consoleOutput = $"parents: [{string.Join(", ", records.Select(r => r["parent"].As<INode>().Properties["name"]))}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -79,7 +79,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task05), summary, records);
-        var consoleOutput = records.Single()["parentCount"].As<string>();
+        var consoleOutput = $"parents count: {records.Single()["parentCount"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -93,7 +93,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task06), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => r["grandparent"].As<INode>().Properties["name"]));
+        var consoleOutput = $"grandparents: [{string.Join(", ", records.Select(r => r["grandparent"].As<INode>().Properties["name"]))}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -106,7 +106,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task07), summary, records);
-        var consoleOutput = records.Single()["uniqueNameCount"].As<string>();
+        var consoleOutput = $"unique names: {records.Single()["uniqueNameCount"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -119,7 +119,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task08), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => r["category"].As<INode>().Properties["name"]));
+        var consoleOutput = $"not sub-categories: [{string.Join(", ", records.Select(r => r["category"].As<INode>().Properties["name"]))}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -132,7 +132,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task09), summary, records);
-        var consoleOutput = records.Single()["notSubCategoriesCount"].As<string>();
+        var consoleOutput = $"not sub-categories count: {records.Single()["notSubCategoriesCount"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -146,11 +146,11 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task10), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => (
+        var consoleOutput = $"nodes with the largest number of children: [{string.Join(", ", records.Select(r => (
                 r["parentWithMaxChildren"].As<INode>().Properties["name"],
                 r["childCount"].As<int>())
             )
-        );
+        )}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -164,11 +164,11 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task11), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => (
+        var consoleOutput = $"nodes with the smallest number of children: [{string.Join(", ", records.Select(r => (
                 r["parentWithMinChildren"].As<INode>().Properties["name"],
                 r["childCount"].As<int>())
             )
-        );
+        )}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -182,7 +182,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task12), summary, records);
-        var consoleOutput = records.Single()["category"].As<INode>().Properties["name"].As<string>();
+        var consoleOutput = $"new category name: {records.Single()["category"].As<INode>().Properties["name"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -195,13 +195,13 @@ public class MemgraphService
             .ExecuteAsync(_tokenSource)
             .RecordsAndSummary(_tokenSource);
 
+        var record = records.Single();
+
         var querySummary = new QuerySummary(nameof(Task13), summary, records);
-        var consoleOutput = string.Join(", ", records.Select(r => (
-                r["n"].As<INode>().Properties["name"],
-                r["oldPopularityId"].As<int>(),
-                r["newPopularity"].As<INode>().Properties["id"])
-            )
-        );
+        var consoleOutput =
+            $"[{record["n"].As<INode>().Properties["name"]}, " +
+            $"{record["oldPopularityId"].As<string>()}, " +
+            $"{record["newPopularity"].As<INode>().Properties["id"]}]";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -215,10 +215,12 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task14), summary, records);
-        var consoleOutput = string.Join(
-            Environment.NewLine,
-            records.Select(record => $"[{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]")
-        );
+        var consoleOutput =
+            $"paths: " +
+            $"{string.Join(
+                Environment.NewLine,
+                records.Select(record => $"[{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]")
+            )}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -232,7 +234,7 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task15), summary, records);
-        var consoleOutput = records.Single()["differentNodes"].As<string>();
+        var consoleOutput = $"count of different nodes existing on paths: {records.Single()["differentNodes"].As<string>()}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -249,11 +251,11 @@ public class MemgraphService
 
         var querySummary = new QuerySummary(nameof(Task16), summary, records);
         var consoleOutput =
-            $"{record["node_name"]}{Environment.NewLine}" +
-            $"{record["node_popularity"]}{Environment.NewLine}" +
-            $"{record["neighbor_count"]}{Environment.NewLine}" +
-            $"[{string.Join(", ", record["neighbor_popularity_tuples"].As<Dictionary<string, int>>())}]{Environment.NewLine}" +
-            $"{record["neighborhood_popularity"]}{Environment.NewLine}";
+            $"category name: {record["node_name"]}{Environment.NewLine}" +
+            $"category popularity: {record["node_popularity"]}{Environment.NewLine}" +
+            $"category neighbor count: {record["neighbor_count"]}{Environment.NewLine}" +
+            $"popularity of neighboring categories: [{string.Join(", ", record["neighbor_popularity_tuples"].As<Dictionary<string, int>>())}]{Environment.NewLine}" +
+            $"neighborhood popularity: {record["neighborhood_popularity"]}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -267,10 +269,12 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task17), summary, records);
-        var consoleOutput = string.Join(Environment.NewLine, records.Select(record =>
-                $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
-            )
-        );
+        var consoleOutput =
+            $"popularity on paths: {Environment.NewLine}" +
+            $"{string.Join(Environment.NewLine, records.Select(record =>
+                    $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
+                )
+            )}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
@@ -283,10 +287,12 @@ public class MemgraphService
             .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task18), summary, records);
-        var consoleOutput = string.Join(Environment.NewLine, records.Select(record =>
-                $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
-            )
-        );
+        var consoleOutput =
+            $"popularity on paths: {Environment.NewLine}" +
+            $"{string.Join(Environment.NewLine, records.Select(record =>
+                    $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
+                )
+            )}";
 
         return new TaskSummary(querySummary, consoleOutput);
     }
