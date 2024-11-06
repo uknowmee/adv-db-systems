@@ -9,13 +9,10 @@
 
         <AssemblyName>dbimporter</AssemblyName>
         
-<!--        <IsAotCompatible>true</IsAotCompatible>-->
-<!--        <PublishAot>true</PublishAot>-->
-        
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Neo4j.Driver" Version="5.25.0" />
+        <PackageReference Include="Neo4j.Driver" Version="5.25.0"/>
     </ItemGroup>
 
 </Project>
