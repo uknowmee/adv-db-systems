@@ -8,6 +8,7 @@
         <WarningsAsErrors>Nullable</WarningsAsErrors>
 
         <AssemblyName>dbimporter</AssemblyName>
+        <Version>1.0.0</Version>
         
     </PropertyGroup>
 
