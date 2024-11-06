@@ -9,12 +9,12 @@ internal static class Utils
         return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}";
     }
 
-    public static string GetTaskInfo(this Stopwatch stopwatch)
+    public static string GetTaskDurationInfo(this Stopwatch stopwatch)
     {
         return $"Solving Task took: {stopwatch.Elapsed.Hours}h{stopwatch.Elapsed.Minutes}m{stopwatch.Elapsed.Seconds}s{stopwatch.Elapsed.Milliseconds}ms";
     }
-    
-    public static async Task RunProgress(CancellationToken token, IProgress<char> progress)
+
+    public static async Task RunProgressBar(CancellationToken token, IProgress<char> progress)
     {
         try
         {
@@ -32,7 +32,7 @@ internal static class Utils
         {
         }
     }
-    
+
     public static async Task RunKeyboardListener(CancellationToken token, IProgress<ConsoleKey> progress)
     {
         try
@@ -53,12 +53,18 @@ internal static class Utils
         {
         }
     }
-    
+
     public static async void CancelOnC(ConsoleKey key, CancellationTokenSource source)
     {
         if (key == ConsoleKey.C)
         {
             await source.CancelAsync();
         }
+    }
+
+    public static void Deconstruct(this TaskSummary taskSummary, out QuerySummary querySummary, out string consoleOutput)
+    {
+        querySummary = taskSummary.QuerySummary;
+        consoleOutput = taskSummary.ConsoleOutput;
     }
 }

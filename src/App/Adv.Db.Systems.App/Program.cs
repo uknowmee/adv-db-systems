@@ -8,16 +8,20 @@ await Console.Out.WriteLineAsync("press \"C\" to exit...");
 using var tokenSource = new CancellationTokenSource();
 using var background = new CancellationTokenSource();
 var keyboard = Utils.RunKeyboardListener(background.Token, new Progress<ConsoleKey>(key => Utils.CancelOnC(key, tokenSource)));
-var ticker = Utils.RunProgress(background.Token, new Progress<char>(c => Console.Out.Write($"\r{c}")));
+var ticker = Utils.RunProgressBar(background.Token, new Progress<char>(c => Console.Out.Write($"\r{c}")));
 
 var report = string.Empty;
 try
 {
     var stopwatch = Stopwatch.StartNew();
 
-    await args.GetTask(tokenSource.Token);
+    var (querySummary, consoleOutput) = await args.RunTask(tokenSource.Token);
 
-    report = $"{stopwatch.GetTaskInfo()}";
+    report = $"{stopwatch.GetTaskDurationInfo()}" +
+             $"{Environment.NewLine}" +
+             $"{consoleOutput}";
+
+    await QuerySummaryService.SaveQuerySummary(querySummary);
 }
 catch (OperationCanceledException)
 {
@@ -27,8 +31,9 @@ catch (InvalidOperationException e)
 {
     report = e.Message;
 }
-catch (Exception)
+catch (Exception e)
 {
+    Console.Out.WriteLine(e);
     report = "something went wrong...";
 }
 finally

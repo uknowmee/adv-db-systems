@@ -25,9 +25,9 @@ public static class MemgraphService
         await result.ConsumeAsync();
 
         var addCategoriesQuery = $$"""
-                                       USING PERIODIC COMMIT 1000000
-                                       LOAD CSV FROM "{{CategoriesDir}}" NO HEADER AS row
-                                       CREATE (n:Category {id: row[0], name: row[1]})
+                                   USING PERIODIC COMMIT 1000000
+                                   LOAD CSV FROM "{{CategoriesDir}}" NO HEADER AS row
+                                   CREATE (n:Category {id: row[0], name: row[1]})
                                    """;
         result = await Session.RunAsync(addCategoriesQuery);
         await result.ConsumeAsync();
@@ -63,9 +63,9 @@ public static class MemgraphService
         await result.ConsumeAsync();
 
         var addPopularityQuery = $$"""
-                                       USING PERIODIC COMMIT 100000
-                                       LOAD CSV FROM "{{PopularityDir}}" NO HEADER AS row
-                                       CREATE (n:Popularity {id: row[0]})
+                                   USING PERIODIC COMMIT 100000
+                                   LOAD CSV FROM "{{PopularityDir}}" NO HEADER AS row
+                                   CREATE (n:Popularity {id: row[0]})
                                    """;
 
         result = await Session.RunAsync(addPopularityQuery);
@@ -80,11 +80,11 @@ public static class MemgraphService
         var stopwatch = Stopwatch.StartNew();
 
         var addPopularityRelationsQuery = $$"""
-                                                USING PERIODIC COMMIT 100000
-                                                LOAD CSV FROM "{{PopularityRelationsDir}}" NO HEADER AS row
-                                                MATCH (c:Category {id: row[0]})
-                                                MATCH (p:Popularity {id: row[1]})
-                                                CREATE (c)-[:HAS_POPULARITY]->(p)
+                                            USING PERIODIC COMMIT 100000
+                                            LOAD CSV FROM "{{PopularityRelationsDir}}" NO HEADER AS row
+                                            MATCH (c:Category {id: row[0]})
+                                            MATCH (p:Popularity {id: row[1]})
+                                            CREATE (c)-[:HAS_POPULARITY]->(p)
                                             """;
 
         var result = await Session.RunAsync(addPopularityRelationsQuery);

@@ -2,7 +2,7 @@
 
 public static class TaskService
 {
-    public static Task GetTask(this string[] args, CancellationToken tokenSource)
+    public static Task<TaskSummary> RunTask(this string[] args, CancellationToken tokenSource)
     {
         var memgraphService = new MemgraphService(tokenSource);
 
@@ -37,9 +37,10 @@ public static class TaskService
                 ? memgraphService.Task16(nodeName, intRadius)
                 : throw new InvalidOperationException("Invalid arguments"),
             ["17", var firstNodeName, var secondNodeName] => memgraphService.Task17(firstNodeName, secondNodeName),
-            ["18", var firstNodeName, var secondNodeName, var numberOfHops] => int.TryParse(numberOfHops, out var intNumberOfHops)
-                ? memgraphService.Task18(firstNodeName, secondNodeName, intNumberOfHops)
-                : throw new InvalidOperationException("Invalid arguments"),
+            ["18", var firstNodeName, var secondNodeName, var numberOfHops, var limit]
+                => int.TryParse(numberOfHops, out var intNumberOfHops) && int.TryParse(limit, out var intLimit)
+                    ? memgraphService.Task18(firstNodeName, secondNodeName, intNumberOfHops, intLimit)
+                    : throw new InvalidOperationException("Invalid arguments"),
             _ => throw new InvalidOperationException("Invalid arguments")
         };
     }

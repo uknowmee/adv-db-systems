@@ -53,4 +53,4 @@ await Task.WhenAll(saveSubCategoriesToMemgraphTask, savePopularityRelationsToMem
 await MemgraphService.FireCreateCategoryNameIndex();
 
 Console.Out.WriteLine($"Importing finished {Utils.DateNow()}");
-Console.Out.WriteLine($"Took: {stopwatch.Elapsed.Hours}h{stopwatch.Elapsed.Minutes}m{stopwatch.Elapsed.Seconds}s{stopwatch.Elapsed.Milliseconds}ms");
+Console.Out.WriteLine(stopwatch.GetInfo());

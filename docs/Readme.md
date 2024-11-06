@@ -43,6 +43,8 @@
 
 ## dbcli MAN
 
+**RUNNING QUERIES WILL SAVE EXTENDED INFO TO YOUR TMP DIR**
+
 1. `dbcli 1 <node_name>` for example -> `"1880s_films"`
 2. `dbcli 2 <node_name>`
 3. `dbcli 3 <node_name>`
@@ -60,8 +62,7 @@
 15. `dbcli 15 <first_node_name> <second_node_name> <n_of_hops>`
 16. `dbcli 16 <node_name> <radius>` Radius is basically number of hops. Try: `1`.
 17. `dbcli 17 <first_node_name> <second_node_name>`
-18. `dbcli 18 <first_node_name> <second_node_name> <n_of_hops>`
-
+18. `dbcli 18 <first_node_name> <second_node_name> <n_of_hops> <limit>`
 
 ## Results
 
@@ -81,14 +82,14 @@ How can u grade the implementation?
 - change mamgraph data import from csv one to cypherl
 - introduce lb to handle more tasks in one time
 - not unique memgraph db ids
-- 
+-
 
 ## Changelog
 
 - experiments
 - implement db importer
 - update readme
-- 
+-
 
 ---
 

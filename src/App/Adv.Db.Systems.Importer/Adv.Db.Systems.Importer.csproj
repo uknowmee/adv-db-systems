@@ -9,7 +9,7 @@
 
         <AssemblyName>dbimporter</AssemblyName>
         
-        <IsAotCompatible>true</IsAotCompatible>
+<!--        <IsAotCompatible>true</IsAotCompatible>-->
 <!--        <PublishAot>true</PublishAot>-->
         
     </PropertyGroup>
