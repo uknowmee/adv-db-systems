@@ -19,7 +19,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.ChildrenOfNode)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task01), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => r["child"].As<INode>().Properties["name"]));
@@ -32,7 +33,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.ChildCount)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task02), summary, records);
         var consoleOutput = records.Single()["childCount"].As<string>();
@@ -45,7 +47,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.Grandchildren)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task03), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => r["grandchild"].As<INode>().Properties["name"]));
@@ -58,7 +61,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.Parents)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task04), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => r["parent"].As<INode>().Properties["name"]));
@@ -71,7 +75,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.ParentsCount)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task05), summary, records);
         var consoleOutput = records.Single()["parentCount"].As<string>();
@@ -84,7 +89,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.Grandparents)
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task06), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => r["grandparent"].As<INode>().Properties["name"]));
@@ -96,7 +102,8 @@ public class MemgraphService
     {
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.UniqueName)
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task07), summary, records);
         var consoleOutput = records.Single()["uniqueNameCount"].As<string>();
@@ -108,7 +115,8 @@ public class MemgraphService
     {
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.NotSubCategories)
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task08), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => r["category"].As<INode>().Properties["name"]));
@@ -120,7 +128,8 @@ public class MemgraphService
     {
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.NotSubCategoriesCount)
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task09), summary, records);
         var consoleOutput = records.Single()["notSubCategoriesCount"].As<string>();
@@ -133,7 +142,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.LargestNumberOfChildren)
             .WithParameters(new { limit })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task10), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => (
@@ -150,7 +160,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.SmallestNumberOfChildren)
             .WithParameters(new { limit })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task11), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => (
@@ -167,7 +178,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.ChangeName)
             .WithParameters(new { oldNodeName, newNodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task12), summary, records);
         var consoleOutput = records.Single()["category"].As<INode>().Properties["name"].As<string>();
@@ -180,7 +192,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.PopularityChange)
             .WithParameters(new { nodeName, newNodePopularity })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task13), summary, records);
         var consoleOutput = string.Join(", ", records.Select(r => (
@@ -198,7 +211,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.AllPaths(numberOfHops))
             .WithParameters(new { firstNodeName, secondNodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task14), summary, records);
         var consoleOutput = string.Join(
@@ -214,7 +228,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.AllPathsCount(numberOfHops))
             .WithParameters(new { firstNodeName, secondNodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task15), summary, records);
         var consoleOutput = records.Single()["differentNodes"].As<string>();
@@ -227,7 +242,8 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.NeighborhoodPopularity(radius))
             .WithParameters(new { nodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var record = records.Single();
 
@@ -247,12 +263,12 @@ public class MemgraphService
         var (records, summary) = await _driver
             .ExecutableQuery(Queries.ShortestPathPopularity)
             .WithParameters(new { firstNodeName, secondNodeName })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task17), summary, records);
-        var consoleOutput = string.Join(
-            Environment.NewLine,
-            records.Select(record => $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
+        var consoleOutput = string.Join(Environment.NewLine, records.Select(record =>
+                $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
             )
         );
 
@@ -261,15 +277,14 @@ public class MemgraphService
 
     public async Task<TaskSummary> Task18(string firstNodeName, string secondNodeName, int numberOfHops, int limit)
     {
-        var (records, summary) = await _driver
-            .ExecutableQuery(Queries.DirectedPathWithHighestPopularity(numberOfHops))
+        var (records, summary) = await _driver.ExecutableQuery(Queries.DirectedPathWithHighestPopularity(numberOfHops))
             .WithParameters(new { firstNodeName, secondNodeName, limit })
-            .ExecuteAsync(_tokenSource);
+            .ExecuteAsync(_tokenSource)
+            .RecordsAndSummary(_tokenSource);
 
         var querySummary = new QuerySummary(nameof(Task18), summary, records);
-        var consoleOutput = string.Join(
-            Environment.NewLine,
-            records.Select(record => $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
+        var consoleOutput = string.Join(Environment.NewLine, records.Select(record =>
+                $"{record["path_popularity"].As<string>()} [{string.Join(", ", record["path"].As<IPath>().Nodes.Select(n => n.Properties["name"]))}]"
             )
         );
 

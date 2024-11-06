@@ -7,7 +7,7 @@ public static class QuerySummaryService
     private static readonly string SaveDir = Path.Combine(Path.GetTempPath(), "5f602e2f-ef92-46fa-9fe1-b865163f7a9a");
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
-    public static async Task SaveQuerySummary(QuerySummary querySummary)
+    public static async Task SaveQuerySummary(QuerySummary querySummary, CancellationToken tokenSourceToken)
     {
         try
         {
@@ -19,7 +19,7 @@ public static class QuerySummaryService
                 Directory.CreateDirectory(directoryPath);
             }
 
-            await File.WriteAllTextAsync(path, JsonSerializer.Serialize(querySummary, Options));
+            await File.WriteAllTextAsync(path, JsonSerializer.Serialize(querySummary, Options), tokenSourceToken);
         }
         catch (Exception)
         {

@@ -21,7 +21,7 @@ try
              $"{Environment.NewLine}" +
              $"{consoleOutput}";
 
-    await QuerySummaryService.SaveQuerySummary(querySummary);
+    await QuerySummaryService.SaveQuerySummary(querySummary, tokenSource.Token);
 }
 catch (OperationCanceledException)
 {
@@ -31,9 +31,8 @@ catch (InvalidOperationException e)
 {
     report = e.Message;
 }
-catch (Exception e)
+catch (Exception)
 {
-    Console.Out.WriteLine(e);
     report = "something went wrong...";
 }
 finally

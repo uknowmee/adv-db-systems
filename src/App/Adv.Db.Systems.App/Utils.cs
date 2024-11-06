@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Neo4j.Driver;
 
 namespace Adv.Db.Systems.App;
 
@@ -66,5 +67,17 @@ internal static class Utils
     {
         querySummary = taskSummary.QuerySummary;
         consoleOutput = taskSummary.ConsoleOutput;
+    }
+    
+    public static async Task<EagerResult<IReadOnlyList<TOut>>> RecordsAndSummary<TOut>(this Task<EagerResult<IReadOnlyList<TOut>>> eagerResultTask, CancellationToken tokenSource)
+    {
+        var completedTask = await Task.WhenAny(eagerResultTask, Task.Delay(Timeout.Infinite, tokenSource));
+
+        if (completedTask != eagerResultTask)
+        {
+            throw new OperationCanceledException();
+        }
+
+        return await eagerResultTask;
     }
 }
