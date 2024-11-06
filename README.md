@@ -1,23 +1,36 @@
 # Advanced Db Systems
 
-## Project
+#### [Docs](docs/README.md)
 
-1. To run use `dotnet run --project .\src\App\Adv.Db.Systems.App\Adv.Db.Systems.App.csproj`, or just `dotnet run` in project dir. 
-2. To publish self-contained app with runtime use
+---
+
+## Requirements and dependencies
+
+- [docker compose](https://docs.docker.com/desktop/install/linux/)
+- if you are not working with released version u will need sdk to build app and runtime to run it. Check [wiki.archlinux.org](https://wiki.archlinux.org/title/.NET)
+  or [learn.microsoft.com](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet8&pivots=os-linux-ubuntu-2404).
+    - dotnet sdk
+    - dotnet runtime
+
+## Installation and configuration instructions
+
+### Run from source
+
+1. To run `memgraph-compose` use `docker compose -f compose.yaml up -d`
+2. To run `Adv.Db.Systems.Importer` use `dotnet run --project src/App/Adv.Db.Systems.Importer/`, or just `dotnet run` in specified project dir.
+3. To run `Adv.Db.Systems.App` use `dotnet run --project src/App/Adv.Db.Systems.App/`, or just `dotnet run` in specified project dir.
+
+### Released versions
+
+1. If u run released version of `dbimporter` you should specify path to data dir. [Check data README.md](data/README.md).
+2. If u run released version of `dbcli` you should specify args according to [dbcli MAN](docs/README.md#dbcli-man).
+
+### Publish
+
+1. To publish self-contained app with runtime use (you can skip self-contained and single-file for performance)
     - linux: `dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o publish/linux`
     - win: `dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish/windows`
-3. To publish linux AOT without runtime: `dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true -p:PublishReadyToRun=true -o publish/linux/aot`
 
-## Runtime 
+---
 
-- just install `dotnet-runtime-8.0`
-
-### Debian:
-
-```
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-sudo apt-get update
-sudo apt-get install -y dotnet-runtime-8.0
-```
+Authors: [Piotr Sokolowski](https://github.com/sokoloowski), [Michal Palucki](https://github.com/uknowmee)

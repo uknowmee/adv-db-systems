@@ -6,12 +6,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Items", "Solution.
 		Adv.Db.Systems.sln = Adv.Db.Systems.sln
 		global.json = global.json
 		README.md = README.md
+		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}"
 	ProjectSection(SolutionItems) = preProject
 		data\popularity_iw.csv = data\popularity_iw.csv
 		data\taxonomy_iw.csv = data\taxonomy_iw.csv
+		data\README.md = data\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "compressed", "compressed", "{C2A8DDB2-1C7D-40A7-8FBB-CD72A0414645}"
@@ -26,6 +28,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{A5126845-C57
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.App", "src\App\Adv.Db.Systems.App\Adv.Db.Systems.App.csproj", "{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E8128389-6940-4B24-9573-B18563DCB637}"
+	ProjectSection(SolutionItems) = preProject
+		docs\README.md = docs\README.md
+		docs\popularity.md = docs\popularity.md
+		docs\results.md = docs\results.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.Importer", "src\App\Adv.Db.Systems.Importer\Adv.Db.Systems.Importer.csproj", "{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{E66C767E-0144-4902-85F6-F6B627521DD3}"
+	ProjectSection(SolutionItems) = preProject
+		.run\Adv.Db.Systems.App.run.xml = .run\Adv.Db.Systems.App.run.xml
+		.run\Adv.Db.Systems.Importer.run.xml = .run\Adv.Db.Systems.Importer.run.xml
+		.run\memgraph-compose.run.xml = .run\memgraph-compose.run.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +53,16 @@ Global
 		{C2A8DDB2-1C7D-40A7-8FBB-CD72A0414645} = {4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}
 		{A5126845-C57A-4F44-806A-658DC42CB44B} = {752568B2-C656-4DFA-B024-B68C7E6768E3}
 		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC} = {A5126845-C57A-4F44-806A-658DC42CB44B}
+		{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE} = {A5126845-C57A-4F44-806A-658DC42CB44B}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5EA207F-93D3-474E-B0CA-17E5739A4ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

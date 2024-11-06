@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>Nullable</WarningsAsErrors>
 
-        <AssemblyName>dbcli</AssemblyName>
+        <AssemblyName>dbimporter</AssemblyName>
         <Version>1.0.0</Version>
         
     </PropertyGroup>
