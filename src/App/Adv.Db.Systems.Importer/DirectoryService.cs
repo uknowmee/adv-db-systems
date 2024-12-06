@@ -3,13 +3,13 @@
 public static class DirectoryService
 {
     public static string DataDir { get; set; } = "data";
-    public static readonly string CompressedDataDir = Path.Combine(DataDir, "compressed");
-    public static readonly string OriginalTaxonomyFileDir = Path.Combine(DataDir, "taxonomy_iw.csv");
-    public static readonly string OriginalPopularityFileDir = Path.Combine(DataDir, "popularity_iw.csv");
-    public static readonly string CategoriesDir = Path.Combine(DataDir, "categories.csv");
-    public static readonly string CategoryRelationsDir = Path.Combine(DataDir, "categoryRelations.csv");
-    public static readonly string PopularityDir = Path.Combine(DataDir, "popularity.csv");
-    public static readonly string PopularityRelationsDir = Path.Combine(DataDir, "popularityRelations.csv");
+    public const string CompressedDataDir = "compressed";
+    public const string OriginalTaxonomyFileDir = "taxonomy_iw.csv";
+    public const string OriginalPopularityFileDir = "popularity_iw.csv";
+    public const string CategoriesDir = "categories.csv";
+    public const string CategoryRelationsDir = "categoryRelations.csv";
+    public const string PopularityDir = "popularity.csv";
+    public const string PopularityRelationsDir = "popularityRelations.csv";
 
     public static string GetProjectRoot()
     {

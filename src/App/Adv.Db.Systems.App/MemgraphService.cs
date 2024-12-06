@@ -4,8 +4,8 @@ namespace Adv.Db.Systems.App;
 
 public class MemgraphService
 {
-    private const string MemgraphUrl = "bolt://localhost:7687";
-    private readonly IDriver _driver = GraphDatabase.Driver(MemgraphUrl, AuthTokens.None);
+    private static readonly string MemgraphUri = Environment.GetEnvironmentVariable("MEMGRAPH_URI") ?? "bolt://localhost:7687";
+    private readonly IDriver _driver = GraphDatabase.Driver(MemgraphUri, AuthTokens.None);
 
     private readonly CancellationToken _tokenSource;
 

@@ -6,7 +6,7 @@ internal static class Utils
 {
     public static string DateNow()
     {
-        return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+        return $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}";
     }
 
     public static string TrimOnce(this string input, char trimChar)

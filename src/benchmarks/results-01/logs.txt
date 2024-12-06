@@ -1,0 +1,519 @@
+uknowme@DESKTOP-DJJJ3DV:/mnt/d/projects/uknowmee/adv-db-systems/src/benchmarks$ docker ps -a
+CONTAINER ID   IMAGE                           COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+21873be3aeef   adv-db-systems.importer         "sleep infinity"         About a minute ago   Up About a minute                                                    adv-db-systems.importer
+ce05acf44d19   adv-db-systems.app              "sleep infinity"         About a minute ago   Up About a minute                                                    adv-db-systems.app
+4f73d3b76481   memgraph/memgraph-mage:latest   "/usr/lib/memgraph/m…"   About a minute ago   Up About a minute   0.0.0.0:7444->7444/tcp, 0.0.0.0:7687->7687/tcp   adv-db-systems.memgraph
+uknowme@DESKTOP-DJJJ3DV:/mnt/d/projects/uknowmee/adv-db-systems/src/benchmarks$ . benchmark.sh
+Starting benchmarking...
+Executing task 'import' 1 times for benchmarking...
+Iteration 1 for task 'import'...
+
+----------------------------------------------------------------------------------------
+Importing started 2024-12-07 11:35:56.646
+args: [/data]
+Unpacking data
+Unpacking done. Took: 0h0m2s996ms
+Repairing popularity csv
+Getting unique categories from taxonomies
+Repairing done. Took: 0h0m22s266ms
+Unique categories from taxonomies acquired Took: 0h0m22s579ms
+Saving unique categories to Memgraph acceptable CSV
+Getting category relations from taxonomies
+Saving popularity to Memgraph acceptable CSV
+Saving popularity relations to Memgraph acceptable CSV
+Popularity saved to Memgraph acceptable CSV. Took: 0h0m0s405ms
+Inserting Popularity to Memgraph
+Popularity inserted to Memgraph. Took: 0h0m0s393ms
+Popularity realtions saved to Memgraph acceptable CSV. Took: 0h0m2s289ms
+Unique categories saved to Memgraph acceptable CSV. Took: 0h0m3s823ms
+Inserting Categories to Memgraph
+Category relations from taxonomies acquired. Took: 0h0m3s942ms
+Saving category relations to Memgraph acceptable CSV
+Category relations saved to Memgraph acceptable CSV. Took: 0h0m3s542ms
+Categories inserted to Memgraph. Took: 0h0m11s946ms
+Inserting Categories Relations to Memgraph
+Categories Relations inserted to Memgraph. Took: 0h0m32s860ms
+Inserting Popularity Relations to Memgraph
+Popularity Relations inserted to Memgraph. Took: 0h0m5s804ms
+Importing finished 2024-12-07 11:37:17.365
+Took: 0h1m20s692ms
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 1: 81091 ms
+
+----------------------------------------------------------------------------------------
+Finished executing task 'import' 1 times.
+########################################################################################
+
+Executing task 'largestNumberOfChildren' 5 times for benchmarking...
+Iteration 1 for task 'largestNumberOfChildren'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:37:21.849
+args: [10, 10]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:37:26.727
+Solving Task took: 0h0m4s741ms
+nodes with the largest number of children: [(Albums_by_artist, 23435), (Suspected_Wikipedia_sockpuppets, 23036), (Wikipedia_sockpuppets, 21442), (Stub_categories, 18324), (Songs_by_artist, 9148), (Songs_by_songwriter, 8563), (Films_by_director, 8544), (Taxa_by_author, 4549), (Minor_league_baseball_players_by_team, 4359), (Musicians_by_band, 3726)]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 1: 5068 ms
+
+----------------------------------------------------------------------------------------
+Iteration 2 for task 'largestNumberOfChildren'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:37:31.126
+args: [10, 10]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:37:36.273
+Solving Task took: 0h0m5s56ms
+nodes with the largest number of children: [(Albums_by_artist, 23435), (Suspected_Wikipedia_sockpuppets, 23036), (Wikipedia_sockpuppets, 21442), (Stub_categories, 18324), (Songs_by_artist, 9148), (Songs_by_songwriter, 8563), (Films_by_director, 8544), (Taxa_by_author, 4549), (Minor_league_baseball_players_by_team, 4359), (Musicians_by_band, 3726)]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 2: 5344 ms
+
+----------------------------------------------------------------------------------------
+Iteration 3 for task 'largestNumberOfChildren'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:37:40.626
+args: [10, 10]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:37:45.594
+Solving Task took: 0h0m4s864ms
+nodes with the largest number of children: [(Albums_by_artist, 23435), (Suspected_Wikipedia_sockpuppets, 23036), (Wikipedia_sockpuppets, 21442), (Stub_categories, 18324), (Songs_by_artist, 9148), (Songs_by_songwriter, 8563), (Films_by_director, 8544), (Taxa_by_author, 4549), (Minor_league_baseball_players_by_team, 4359), (Musicians_by_band, 3726)]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 3: 5162 ms
+
+----------------------------------------------------------------------------------------
+Iteration 4 for task 'largestNumberOfChildren'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:37:49.980
+args: [10, 10]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:37:55.070
+Solving Task took: 0h0m4s980ms
+nodes with the largest number of children: [(Albums_by_artist, 23435), (Suspected_Wikipedia_sockpuppets, 23036), (Wikipedia_sockpuppets, 21442), (Stub_categories, 18324), (Songs_by_artist, 9148), (Songs_by_songwriter, 8563), (Films_by_director, 8544), (Taxa_by_author, 4549), (Minor_league_baseball_players_by_team, 4359), (Musicians_by_band, 3726)]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 4: 5354 ms
+
+----------------------------------------------------------------------------------------
+Iteration 5 for task 'largestNumberOfChildren'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:37:59.384
+args: [10, 10]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:04.696
+Solving Task took: 0h0m5s215ms
+nodes with the largest number of children: [(Albums_by_artist, 23435), (Suspected_Wikipedia_sockpuppets, 23036), (Wikipedia_sockpuppets, 21442), (Stub_categories, 18324), (Songs_by_artist, 9148), (Songs_by_songwriter, 8563), (Films_by_director, 8544), (Taxa_by_author, 4549), (Minor_league_baseball_players_by_team, 4359), (Musicians_by_band, 3726)]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 5: 5511 ms
+
+----------------------------------------------------------------------------------------
+Finished executing task 'largestNumberOfChildren' 5 times.
+########################################################################################
+
+Executing task 'neighborhoodPopularity' 5 times for benchmarking...
+Iteration 1 for task 'neighborhoodPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:09.064
+args: [16, Tourism_in_Uttarakhand, 1]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:09.395
+Solving Task took: 0h0m0s240ms
+category name: Tourism_in_Uttarakhand
+category popularity: 23381
+category neighbor count: 9
+popularity of neighboring categories: [[Airports_in_Uttarakhand, 0], [Dehradun, 29320], [Economy_of_Uttarakhand, 29778], [Mussoorie, 1408], [Nainital, 27468], [Rishikesh, 11976], [Tourism_in_India_by_state_or_union_territory, 30392], [Tourist_attractions_in_Uttarakhand, 4160], [Uttarakhand, 10669]]
+neighborhood popularity: 168552
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 1: 529 ms
+
+----------------------------------------------------------------------------------------
+Iteration 2 for task 'neighborhoodPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:13.723
+args: [16, Tourism_in_Uttarakhand, 1]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:14.104
+Solving Task took: 0h0m0s293ms
+category name: Tourism_in_Uttarakhand
+category popularity: 23381
+category neighbor count: 9
+popularity of neighboring categories: [[Airports_in_Uttarakhand, 0], [Dehradun, 29320], [Economy_of_Uttarakhand, 29778], [Mussoorie, 1408], [Nainital, 27468], [Rishikesh, 11976], [Tourism_in_India_by_state_or_union_territory, 30392], [Tourist_attractions_in_Uttarakhand, 4160], [Uttarakhand, 10669]]
+neighborhood popularity: 168552
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 2: 601 ms
+
+----------------------------------------------------------------------------------------
+Iteration 3 for task 'neighborhoodPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:18.348
+args: [16, Tourism_in_Uttarakhand, 1]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:18.707
+Solving Task took: 0h0m0s271ms
+category name: Tourism_in_Uttarakhand
+category popularity: 23381
+category neighbor count: 9
+popularity of neighboring categories: [[Airports_in_Uttarakhand, 0], [Dehradun, 29320], [Economy_of_Uttarakhand, 29778], [Mussoorie, 1408], [Nainital, 27468], [Rishikesh, 11976], [Tourism_in_India_by_state_or_union_territory, 30392], [Tourist_attractions_in_Uttarakhand, 4160], [Uttarakhand, 10669]]
+neighborhood popularity: 168552
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 3: 565 ms
+
+----------------------------------------------------------------------------------------
+Iteration 4 for task 'neighborhoodPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:23.003
+args: [16, Tourism_in_Uttarakhand, 1]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:23.410
+Solving Task took: 0h0m0s289ms
+category name: Tourism_in_Uttarakhand
+category popularity: 23381
+category neighbor count: 9
+popularity of neighboring categories: [[Airports_in_Uttarakhand, 0], [Dehradun, 29320], [Economy_of_Uttarakhand, 29778], [Mussoorie, 1408], [Nainital, 27468], [Rishikesh, 11976], [Tourism_in_India_by_state_or_union_territory, 30392], [Tourist_attractions_in_Uttarakhand, 4160], [Uttarakhand, 10669]]
+neighborhood popularity: 168552
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 4: 630 ms
+
+----------------------------------------------------------------------------------------
+Iteration 5 for task 'neighborhoodPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:27.843
+args: [16, Tourism_in_Uttarakhand, 1]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:28.180
+Solving Task took: 0h0m0s249ms
+category name: Tourism_in_Uttarakhand
+category popularity: 23381
+category neighbor count: 9
+popularity of neighboring categories: [[Airports_in_Uttarakhand, 0], [Dehradun, 29320], [Economy_of_Uttarakhand, 29778], [Mussoorie, 1408], [Nainital, 27468], [Rishikesh, 11976], [Tourism_in_India_by_state_or_union_territory, 30392], [Tourist_attractions_in_Uttarakhand, 4160], [Uttarakhand, 10669]]
+neighborhood popularity: 168552
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 5: 559 ms
+
+----------------------------------------------------------------------------------------
+Finished executing task 'neighborhoodPopularity' 5 times.
+########################################################################################
+
+Executing task 'shortestPathPopularity' 5 times for benchmarking...
+Iteration 1 for task 'shortestPathPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:32.489
+args: [17, 19th-century_works, 1887_directorial_debut_films]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:32.985
+Solving Task took: 0h0m0s392ms
+popularity on paths:
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 1: 731 ms
+
+----------------------------------------------------------------------------------------
+Iteration 2 for task 'shortestPathPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:37.349
+args: [17, 19th-century_works, 1887_directorial_debut_films]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:37.828
+Solving Task took: 0h0m0s376ms
+popularity on paths:
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 2: 732 ms
+
+----------------------------------------------------------------------------------------
+Iteration 3 for task 'shortestPathPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:42.178
+args: [17, 19th-century_works, 1887_directorial_debut_films]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:42.734
+Solving Task took: 0h0m0s472ms
+popularity on paths:
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 3: 781 ms
+
+----------------------------------------------------------------------------------------
+Iteration 4 for task 'shortestPathPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:47.002
+args: [17, 19th-century_works, 1887_directorial_debut_films]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:47.472
+Solving Task took: 0h0m0s383ms
+popularity on paths:
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 4: 684 ms
+
+----------------------------------------------------------------------------------------
+Iteration 5 for task 'shortestPathPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:51.829
+args: [17, 19th-century_works, 1887_directorial_debut_films]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:38:52.275
+Solving Task took: 0h0m0s361ms
+popularity on paths:
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 5: 646 ms
+
+----------------------------------------------------------------------------------------
+Finished executing task 'shortestPathPopularity' 5 times.
+########################################################################################
+
+Executing task 'directPathWithHighPopularity' 5 times for benchmarking...
+Iteration 1 for task 'directPathWithHighPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:38:56.668
+args: [18, 19th-century_works, 1887_directorial_debut_films, 15, 50]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:39:01.735
+Solving Task took: 0h0m4s987ms
+popularity on paths:
+259236 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+247980 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+229112 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+217856 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+118339 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1887_films, 1887_directorial_debut_films]
+115600 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+112720 [19th-century_works, 1880s_works, 1880s_in_film, 1887_in_film, 1887_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 1: 5259 ms
+
+----------------------------------------------------------------------------------------
+Iteration 2 for task 'directPathWithHighPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:39:06.213
+args: [18, 19th-century_works, 1887_directorial_debut_films, 15, 50]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:39:11.109
+Solving Task took: 0h0m4s807ms
+popularity on paths:
+259236 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+247980 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+229112 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+217856 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+118339 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1887_films, 1887_directorial_debut_films]
+115600 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+112720 [19th-century_works, 1880s_works, 1880s_in_film, 1887_in_film, 1887_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 2: 5168 ms
+
+----------------------------------------------------------------------------------------
+Iteration 3 for task 'directPathWithHighPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:39:15.562
+args: [18, 19th-century_works, 1887_directorial_debut_films, 15, 50]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:39:20.626
+Solving Task took: 0h0m4s971ms
+popularity on paths:
+259236 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+247980 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+229112 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+217856 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+118339 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1887_films, 1887_directorial_debut_films]
+115600 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+112720 [19th-century_works, 1880s_works, 1880s_in_film, 1887_in_film, 1887_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 3: 5310 ms
+
+----------------------------------------------------------------------------------------
+Iteration 4 for task 'directPathWithHighPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:39:24.993
+args: [18, 19th-century_works, 1887_directorial_debut_films, 15, 50]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:39:30.147
+Solving Task took: 0h0m5s60ms
+popularity on paths:
+259236 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+247980 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+229112 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+217856 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+118339 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1887_films, 1887_directorial_debut_films]
+115600 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+112720 [19th-century_works, 1880s_works, 1880s_in_film, 1887_in_film, 1887_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 4: 5358 ms
+
+----------------------------------------------------------------------------------------
+Iteration 5 for task 'directPathWithHighPopularity'...
+
+----------------------------------------------------------------------------------------
+dbcli started - 2024-12-07 11:39:34.466
+args: [18, 19th-century_works, 1887_directorial_debut_films, 15, 50]
+press "C" to exit...
+
+dbcli finished - 2024-12-07 11:39:39.475
+Solving Task took: 0h0m4s922ms
+popularity on paths:
+259236 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+247980 [19th-century_works, 19th-century_literature, 19th-century_writers, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+229112 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Post-structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+217856 [19th-century_works, 19th-century_literature, 19th-century_German_literature, 19th-century_German_writers, Karl_Marx, Marxism, Neo-Marxism, Structuralism, Difference, Copying, Copyright_law, Creative_works, Debut_works, Debut_works_by_year, 1887_debut_works, 1887_directorial_debut_films]
+118339 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1887_films, 1887_directorial_debut_films]
+115600 [19th-century_works, 1880s_works, 1880s_in_film, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+114121 [19th-century_works, 19th-century_films, 1880s_films, 1887_films, 1887_directorial_debut_films]
+112720 [19th-century_works, 1880s_works, 1880s_in_film, 1887_in_film, 1887_films, 1887_directorial_debut_films]
+111382 [19th-century_works, 19th-century_films, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+104476 [19th-century_works, 19th-century_films, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+98876 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+97321 [19th-century_works, 1880s_works, 1880s_films, 1887_films, 1887_directorial_debut_films]
+95874 [19th-century_works, 19th-century_debut_works, 19th-century_directorial_debut_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+94582 [19th-century_works, 1880s_works, 1880s_films, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+90678 [19th-century_works, 1880s_works, 1880s_debut_works, 1880s_directorial_debut_films, 1887_directorial_debut_films]
+72175 [19th-century_works, 19th-century_debut_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+71298 [19th-century_works, 1880s_works, 1887_works, 1887_films, 1887_directorial_debut_films]
+63977 [19th-century_works, 1880s_works, 1880s_debut_works, 1887_debut_works, 1887_directorial_debut_films]
+41858 [19th-century_works, 1880s_works, 1887_works, 1887_debut_works, 1887_directorial_debut_films]
+[1]+  Done                    captureStats "$task" "$container"
+Iteration: 5: 5219 ms
+
+----------------------------------------------------------------------------------------
+Finished executing task 'directPathWithHighPopularity' 5 times.
+########################################################################################
+
+Benchmarking completed. Results saved to individual task files.
+uknowme@DESKTOP-DJJJ3DV:/mnt/d/projects/uknowmee/adv-db-systems/src/benchmarks$

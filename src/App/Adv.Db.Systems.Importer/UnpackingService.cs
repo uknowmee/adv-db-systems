@@ -17,7 +17,7 @@ public static class UnpackingService
         foreach (var compressedFile in compressedFiles)
         {
             var fileName = Path.GetFileNameWithoutExtension(compressedFile);
-            var uncompressedDir = Path.Combine(currentDir, DirectoryService.DataDir, fileName);
+            var uncompressedDir = Path.Combine(currentDir, fileName);
 
             await using var compressedStream = File.OpenRead(compressedFile);
             await using var decompressedStream = new GZipStream(compressedStream, CompressionMode.Decompress);
