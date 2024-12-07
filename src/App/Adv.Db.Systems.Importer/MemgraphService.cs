@@ -5,14 +5,14 @@ namespace Adv.Db.Systems.Importer;
 
 public static class MemgraphService
 {
-    private const string MemgraphUrl = "bolt://localhost:7687";
+    private static readonly string MemgraphUri = Environment.GetEnvironmentVariable("MEMGRAPH_URI") ?? "bolt://localhost:7687";
 
-    private static readonly string CategoriesDir = DirectoryService.CategoriesDir.ToUnixPath();
-    private static readonly string CategoryRelationsDir = DirectoryService.CategoryRelationsDir.ToUnixPath();
-    private static readonly string PopularityDir = DirectoryService.PopularityDir.ToUnixPath();
-    private static readonly string PopularityRelationsDir = DirectoryService.PopularityRelationsDir.ToUnixPath();
+    private static readonly string CategoriesDir = Path.Combine(DirectoryService.DataDir, DirectoryService.CategoriesDir).ToUnixPath();
+    private static readonly string CategoryRelationsDir = Path.Combine(DirectoryService.DataDir, DirectoryService.CategoryRelationsDir).ToUnixPath();
+    private static readonly string PopularityDir = Path.Combine(DirectoryService.DataDir, DirectoryService.PopularityDir).ToUnixPath();
+    private static readonly string PopularityRelationsDir = Path.Combine(DirectoryService.DataDir, DirectoryService.PopularityRelationsDir).ToUnixPath();
 
-    private static readonly IDriver Driver = GraphDatabase.Driver(MemgraphUrl, AuthTokens.None);
+    private static readonly IDriver Driver = GraphDatabase.Driver(MemgraphUri, AuthTokens.None);
     private static readonly IAsyncSession Session = Driver.AsyncSession();
 
     public static async Task SaveUniqueCategoriesAsync()

@@ -17,6 +17,7 @@ services:
       - ./data:/data
     environment:
       MEMGRAPH_LOG_LEVEL: info
+    restart: unless-stopped
 
   memgraph-lab:
     image: memgraph/lab:latest
@@ -29,3 +30,4 @@ services:
       QUICK_CONNECT_MG_PORT: 7687
     depends_on:
       - memgraph
+    restart: unless-stopped

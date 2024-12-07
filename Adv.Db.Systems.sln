@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Items", "Solution.
 		global.json = global.json
 		README.md = README.md
 		compose.yaml = compose.yaml
+		compose-benchmarks.yaml = compose-benchmarks.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}"

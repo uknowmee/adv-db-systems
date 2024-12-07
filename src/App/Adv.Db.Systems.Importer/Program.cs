@@ -8,7 +8,7 @@ Console.Out.WriteLine($"args: [{string.Join(", ", args.Length == 0 ? [] : args)}
 
 var dataDir = args.Length == 0
     ? DirectoryService.GetProjectRoot().GoToRepoRoot()
-    : Directory.GetParent(args[0])?.FullName ?? DirectoryService.GetProjectRoot().GoToRepoRoot();
+    : args[0];
 dataDir.SetAsCurrentDirectory();
 
 await UnpackingService.UnpackGzippedDataAsync();
@@ -40,6 +40,8 @@ var saveSubCategoriesToMemgraphTask = saveCategoriesToMemgraphTask.ContinueWith(
     saveCategoryRelationsToCsvTask.ContinueWith(_ => MemgraphService.SaveCategoriesRelationsAsync()).Unwrap()
 ).Unwrap();
 
+await saveSubCategoriesToMemgraphTask;
+
 var savePopularityRelationsToMemgraphTask = saveCategoriesToMemgraphTask.ContinueWith(_ =>
     savePopularityToMemgraphTask.ContinueWith(_ =>
         savePopularityRelationsToCsvTask.ContinueWith(_ =>
@@ -48,7 +50,7 @@ var savePopularityRelationsToMemgraphTask = saveCategoriesToMemgraphTask.Continu
     ).Unwrap()
 ).Unwrap();
 
-await Task.WhenAll(saveSubCategoriesToMemgraphTask, savePopularityRelationsToMemgraphTask);
+await savePopularityRelationsToMemgraphTask;
 
 await MemgraphService.FireCreateCategoryNameIndex();
 
