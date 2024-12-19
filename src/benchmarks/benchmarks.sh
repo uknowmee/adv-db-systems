@@ -81,7 +81,7 @@ task17Command='./dbcli 17 "19th-century_works" "1887_directorial_debut_films"'
 task18Command='./dbcli 18 "19th-century_works" "1887_directorial_debut_films" 15 50'
 
 # -----------------------------------------------------------------------------
-# Uncomment commands for tasks you want to run
+# Uncomment commands for tasks you want to run. Dont change anything else :)
 # -----------------------------------------------------------------------------
 
 echo "Starting benchmarking..."
