@@ -1,0 +1,62 @@
+name:
+  adv-db-systems
+
+volumes:
+  memgraph_data:
+
+services:
+  memgraph:
+    image: memgraph/memgraph-mage:latest
+    container_name: adv-db-systems.memgraph
+    pull_policy: always
+    ports:
+      - "7687:7687"
+      - "7444:7444"
+    volumes:
+      - memgraph_data:/var/lib/memgraph
+      - ./data:/data
+    environment:
+      MEMGRAPH_LOG_LEVEL: info
+    restart: unless-stopped
+    command: ["--storage-mode=IN_MEMORY_ANALYTICAL"]
+    deploy:
+      resources:
+        limits:
+          memory: 16g
+          cpus: "8.0"
+  
+  importer:
+    image: adv-db-systems.importer
+    container_name: adv-db-systems.importer
+    pull_policy: 
+      build
+    build:
+      context: .
+      dockerfile: src/App/Adv.Db.Systems.Importer/Dockerfile
+    volumes:
+      - ./data:/data
+    environment:
+      MEMGRAPH_URI: bolt://memgraph:7687
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16g
+          cpus: "8.0"
+  
+  app:
+    image: adv-db-systems.app
+    container_name: adv-db-systems.app
+    pull_policy:
+      build
+    build:
+      context: .
+      dockerfile: src/App/Adv.Db.Systems.App/Dockerfile
+    environment:
+      MEMGRAPH_URI: bolt://memgraph:7687
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 16g
+          cpus: "8.0"
