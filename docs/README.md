@@ -30,16 +30,24 @@
     nodes located on the shortest path.
 18. Finds the directed path between two nodes with the highest popularity among all paths between those nodes.
 
+---
+
 ## Technology
 
 - [docker compose](https://docs.docker.com/compose/)
 - [memgraph](https://memgraph.com/docs)
 - [.net 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - [python](https://www.python.org/)
+- [bash](https://pl.wikipedia.org/wiki/Bash)
+- [Cypher](https://en.wikipedia.org/wiki/Cypher_(query_language))
 
 ## Architecture
 
 <img src="assets/architecture.png" alt="popularity-affected" width="600" />
+
+## [Requirements](../README.md#requirements-and-dependencies)
+
+## [Installation and configuration](../README.md#installation-and-configuration-instructions)
 
 ## dbcli MAN
 
@@ -67,34 +75,85 @@
     Returns path / list of paths with the highest.
     popularity
 
+## Design and implementation process
+
+Design of proposed solution is rather simplistic than complicated. There is no DI used. Services are rather static. Most work is done
+by [memgraph](https://memgraph.com/docs).
+
+- DbImporter is simple cli app that works as presented below. It uses parallel programming multithreading and not blocking neo4j driver to interact with memgraph. Tasks
+  that are presented below are not executed in given order.
+
+```
+- unpacks gzipped data
+
+- fixes records in popularity dataset that are inconsistent with taxonomy one 
+
+- extracts unique categories from taxonomy dataset
+
+- saves unique categories with generated ids to .csv that can be used by memgraph's importing tool
+- uses memgraph's importing tool to insert unique categories
+
+- saves relations between categories based on generated ids to .csv that can be used by memgraph's importing tool
+- uses memgraph's importing tool to insert category relations
+
+- saves popularity to .csv that can be used by memgraph's importing tool
+- uses memgraph's importing tool to insert popularity values
+
+- saves category -> popularity relations to .csv that can be used by memgraph's importing tool
+- uses memgraph's importing tool to insert category -> popularity relations
+```
+
+- DbCli is simple cli app that works as presented below. It uses simple progress bar and keyboard listener to enhance user experience.
+
+```
+- starts keyboard listener and progress bar
+- does task branching based on provided args
+- executes non thread blocking query
+- extracts returned records and query summary provided by non blocking neo4j driver
+- extracts result string from obtained records
+- append console output to task report
+- saves query summary (with its result) to OS tmp dir
+- prints report to the console
+```
+
+## Roles & Changelog
+
+- experiments - Sokolowski
+- investigation of inconsistencies in popularity dataset - Sokolowski
+- implement db importer - Palucki
+- update readme - Palucki
+- implement and test [Cypher](https://en.wikipedia.org/wiki/Cypher_(query_language)) queries - Sokolowski
+- implement and optimize cli results - Palucki
+- Testing - Sokolowski
+- Optimization ideas - Sokolowski
+- update readme - Palucki
+- prepare simple scripts for benchmark purposes - Palucki
+- update readme - Palucki 
+
 ## Results
 
 - [results](results.md)
+- [benchmarks.html](../src/benchmarks/final/final.html) [benchmarks.ipynb](../src/benchmarks/final.ipynb)
 
 ## Self-assessment
 
-How can u grade the implementation?
+- Example queries that you can use to grade implementation are presented in [results](results.md).
+- provided [final](../src/benchmarks/final.ipynb) and [additional](../src/benchmarks/in-memory-analitycal.ipynb) benchmark results might give you brief
+  understanding of solution quality.
+- The important part you should focus on is dbImporter and its efficiency. With [Piotr Sokolowski](https://github.com/sokoloowski) pc it took less than 33s to import data
+  using compiled solution on linux and 45s in docker environment.
 
-- what quantities should be measured?
-- which queries should be used?
-- what should be the specific values of query parameters?
-- should something else be measured in addition to queries?
+Generally everything is made as simple as possible, but not simpler. This solution is good enough to say its very good.
 
 ## Strategies for future mitigation of identified shortcomings
 
-- change mamgraph data import from csv one to cypherl
-- introduce lb to handle more tasks in one time
-- add unique to memgraph db ids
-- standardize names across db queries
-
-## Changelog
-
-- experiments
-- implement db importer
-- update readme
-- implement queries
-- optimize cli results
-- update readme
+- Maybe change mamgraph data import from csv one to cypherl
+- Introduce lb to handle more tasks in one time
+- Add unique to memgraph db ids
+- Standardize names across db queries
+- Introduce model to interact with db
+- Split preprocessing from importing (longer import time but easier to maintain)
+- Provide unit testing
 
 ---
 

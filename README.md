@@ -4,6 +4,14 @@
 
 ---
 
+## Goals
+
+The goal of this project is to build a graph database oriented solution that works with data describing film categories along with their popularity scores and then
+perform some simple tasks to measure efficiency and resources utilization. Example solution should be built with 3 containers and some scripts that allow simple
+benchmarks.
+
+---
+
 ## Requirements and dependencies
 
 - [docker compose](https://docs.docker.com/desktop/install/linux/)
@@ -33,9 +41,9 @@
 
 ### Benchmarks
 
-1. To run benchmarks start `docker compose -f compose-benchmarks.yaml up -d`
+1. To run benchmarks start `docker compose -f compose-benchmarks-in-memory-analitycal.yaml up -d`
 2. Then modify script [benchmark.sh](src/benchmarks/benchmark.sh) according to your needs
-3. Move results to new dir and run [results.ipynb](src/benchmarks/results.ipynb) to see results
+3. Move results to new dir and run [results.ipynb](src/benchmarks/final.ipynb) to see results
 
 ---
 
