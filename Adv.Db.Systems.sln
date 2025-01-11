@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Items", "Solution.
 		compose.yaml = compose.yaml
 		compose-benchmarks.yaml = compose-benchmarks.yaml
 		.gitattributes = .gitattributes
+		compose-benchmarks-in-memory-analitycal.yaml = compose-benchmarks-in-memory-analitycal.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4186740E-FC4F-4BC3-BFC0-7F383B7FE5EE}"
@@ -38,13 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E8128389-6
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adv.Db.Systems.Importer", "src\App\Adv.Db.Systems.Importer\Adv.Db.Systems.Importer.csproj", "{5A3AC2DD-6846-4E12-B1E7-1D0DD4B19DBE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".run", ".run", "{E66C767E-0144-4902-85F6-F6B627521DD3}"
-	ProjectSection(SolutionItems) = preProject
-		.run\Adv.Db.Systems.App.run.xml = .run\Adv.Db.Systems.App.run.xml
-		.run\Adv.Db.Systems.Importer.run.xml = .run\Adv.Db.Systems.Importer.run.xml
-		.run\memgraph-compose.run.xml = .run\memgraph-compose.run.xml
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
