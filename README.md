@@ -42,7 +42,7 @@ benchmarks.
 ### Benchmarks
 
 1. To run benchmarks start `docker compose -f compose-benchmarks-in-memory-analitycal.yaml up -d`
-2. Then modify script [benchmark.sh](src/benchmarks/benchmark.sh) according to your needs
+2. Then modify script [benchmark.sh](src/benchmarks/benchmarks.sh) according to your needs
 3. Move results to new dir and run [results.ipynb](src/benchmarks/final.ipynb) to see results
 
 ---
