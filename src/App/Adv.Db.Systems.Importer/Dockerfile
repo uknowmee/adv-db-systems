@@ -5,14 +5,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 ARG BUILD_CONFIGURATION=Release
 
-COPY src/App/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj src/Adv.Db.Systems.Importer/
-RUN dotnet restore src/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj
+COPY App/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj Adv.Db.Systems.Importer/
+RUN dotnet restore Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj
 
-COPY src/App/Adv.Db.Systems.Importer/ src/Adv.Db.Systems.Importer
-RUN dotnet build src/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj -c $BUILD_CONFIGURATION -o /app/build
+COPY App/Adv.Db.Systems.Importer/ Adv.Db.Systems.Importer
+RUN dotnet build Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build as publish
-RUN dotnet publish src/Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj -c $BUILD_CONFIGURATION -o /app/publish
+RUN dotnet publish Adv.Db.Systems.Importer/Adv.Db.Systems.Importer.csproj -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base as final
 WORKDIR /app

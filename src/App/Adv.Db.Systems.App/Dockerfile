@@ -5,14 +5,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 ARG BUILD_CONFIGURATION=Release
 
-COPY src/App/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj src/Adv.Db.Systems.App/
-RUN dotnet restore src/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj
+COPY App/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj Adv.Db.Systems.App/
+RUN dotnet restore Adv.Db.Systems.App/Adv.Db.Systems.App.csproj
 
-COPY src/App/Adv.Db.Systems.App/ src/Adv.Db.Systems.App
-RUN dotnet build src/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj -c $BUILD_CONFIGURATION -o /app/build
+COPY App/Adv.Db.Systems.App/ Adv.Db.Systems.App
+RUN dotnet build Adv.Db.Systems.App/Adv.Db.Systems.App.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build as publish
-RUN dotnet publish src/Adv.Db.Systems.App/Adv.Db.Systems.App.csproj -c $BUILD_CONFIGURATION -o /app/publish
+RUN dotnet publish Adv.Db.Systems.App/Adv.Db.Systems.App.csproj -c $BUILD_CONFIGURATION -o /app/publish
 
 FROM base as final
 WORKDIR /app
