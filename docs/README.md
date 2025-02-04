@@ -138,8 +138,7 @@ by [memgraph](https://memgraph.com/docs).
 ## Self-assessment
 
 - Example queries that you can use to grade implementation are presented in [results](results.md).
-- provided [final](../src/benchmarks/final.ipynb) and [additional](../src/benchmarks/in-memory-analitycal.ipynb) benchmark results might give you brief
-  understanding of solution quality.
+- provided [final](../src/benchmarks/final.ipynb) benchmark results might give you brief understanding of solution quality.
 - The important part you should focus on is dbImporter and its efficiency. With [Piotr Sokolowski](https://github.com/sokoloowski) pc it took less than 33s to import data
   using compiled solution on linux and 45s in docker environment.
 

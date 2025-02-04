@@ -125,11 +125,11 @@ public static class Queries
              MATCH (n:Category {name: $nodeName})-[relations *1..{{radius}}]-(neighbor:Category)
              OPTIONAL MATCH (neighbor)-[rp:HAS_POPULARITY]->(p:Popularity)
              OPTIONAL MATCH (n)-[rnp:HAS_POPULARITY]->(np:Popularity)
-             WITH n, neighbor, relations, rp, p, rnp, np, COALESCE(SUM(ToInteger(p.id)), 0) AS popularity, COALESCE(SUM(ToInteger(np.id)), 0) AS node_popularity
+             WITH DISTINCT n, neighbor, rp, p, rnp, np, COALESCE(ToInteger(p.id), 0) AS popularity, COALESCE(ToInteger(np.id), 0) AS node_popularity
              RETURN
                n.name AS node_name,
                node_popularity,
-               COUNT(DISTINCT neighbor) AS neighbor_count,
+               COUNT(neighbor) AS neighbor_count,
                COLLECT(neighbor.name, popularity) AS neighbor_popularity_tuples,
                SUM(popularity) + node_popularity AS neighborhood_popularity
              """;

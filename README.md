@@ -10,6 +10,8 @@ The goal of this project is to build a graph database oriented solution that wor
 perform some simple tasks to measure efficiency and resources utilization. Example solution should be built with 3 containers and some scripts that allow simple
 benchmarks.
 
+As db we used [memgraph](https://memgraph.com/) and C# on the client side.
+
 ---
 
 ## Requirements and dependencies
